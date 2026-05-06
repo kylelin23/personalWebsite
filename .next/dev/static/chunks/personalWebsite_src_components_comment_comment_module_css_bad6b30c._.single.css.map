@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/personalWebsite/src/components/comment/comment.module.css"],"sourcesContent":[".userText {\n    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;\n    color: black;\n    font-size: 1.25em;\n}\n\n.commentText {\n    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;\n    line-height: 1.5;\n    color: black;\n    font-size: 1em;\n}\n\n.dateText {\n    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;\n    color: black;\n    font-size: 1em;\n}\n\n.commentContainer {\n    display: flex;\n    flex-direction: column;\n    border-color: black;\n    border-radius: 15;\n    border-width: 2px;\n    padding: 10px;\n    width: 40vw;\n\n}\n\n.comments {\n    display: flex;\n    flex-direction: column;\n    gap: 20px;\n}"],"names":[],"mappings":"AAAA;;;;;;AAMA;;;;;;;AAOA;;;;;;AAMA;;;;;;;;;;AAWA"}}]
-}
