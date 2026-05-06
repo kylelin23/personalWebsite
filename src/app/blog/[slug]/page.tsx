@@ -35,12 +35,6 @@ export default async function Blog(props: Props) {
 	const { slug } = await props.params;
 
     const blog = await getBlog(slug);
-	console.log("Page blog:", JSON.stringify(blog, null, 2));
-
-	if (!blog) {
-		console.log("Blog was null for slug:", slug);
-		return <div>Blog not found for slug: {slug}</div>;
-	}
 
 
 	return (

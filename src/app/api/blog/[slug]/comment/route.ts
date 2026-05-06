@@ -18,11 +18,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ slu
     }
 
     await connectDB();
-    console.log("Connected DB:", Blog.db.name);
-    console.log("Looking for slug:", slug);
-
-    const allBlogs = await Blog.find({}, "slug title").lean();
-    console.log("All blog slugs:", allBlogs);
 
 	const newComment = {
         user,
