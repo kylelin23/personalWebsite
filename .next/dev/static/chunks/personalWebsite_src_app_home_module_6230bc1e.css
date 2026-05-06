@@ -1,0 +1,41 @@
+/* [project]/personalWebsite/src/app/home.module.css [app-client] (css) */
+.home-module__pX3PDq__container {
+  background: url("../media/aboutImage.392446ea.jpeg") center / cover;
+  justify-content: center;
+  height: calc(100vh - 80px);
+  padding-top: 15vh;
+  display: flex;
+}
+
+.home-module__pX3PDq__pageTitle {
+  color: #fff;
+  font-family: Lucida Sans, Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif;
+  font-size: 100px;
+  font-weight: bold;
+}
+
+.home-module__pX3PDq__about {
+  background-color: #f5f7fa;
+  padding: 30px 30vw;
+}
+
+.home-module__pX3PDq__aboutText {
+  color: #000;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.home-module__pX3PDq__aboutText p {
+  font-family: Lucida Sans, Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif;
+  line-height: 1.8;
+}
+
+.home-module__pX3PDq__logos {
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 20px;
+  display: flex;
+}
+
+/*# sourceMappingURL=personalWebsite_src_app_home_module_6230bc1e.css.map*/

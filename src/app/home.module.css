@@ -1,0 +1,43 @@
+.container {
+    background: url('../../public/assets/aboutImage.jpeg');
+    background-size: cover;
+    height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    padding-top: 15vh;
+    background-position: center;
+}
+
+.pageTitle {
+    font-size: 100px;
+    color: white;
+    font-weight: bold;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.about {
+    background-color: #f5f7fa;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 30vw;
+    padding-left: 30vw;
+}
+
+.aboutText {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    color: black;
+}
+
+.aboutText p {
+    line-height: 1.8;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.logos {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 20px;
+}

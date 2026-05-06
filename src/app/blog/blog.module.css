@@ -1,0 +1,55 @@
+.gradientContainer {
+    background: url('../../../public/assets/subtle-prism.svg');
+    background-size: 100% auto;
+    height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    padding-top: 15vh;
+    background-position: center;
+}
+
+.pageTitle {
+    font-size: 100px;
+    color: white;
+    font-weight: bold;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.infoContainer {
+    background-color: #f5f7fa;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    height: 275;
+}
+
+.link {
+    color: black;
+    font-size: 2em;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.midAutumnContainer {
+    border-radius: 10;
+    border-color: black;
+    border-width: 2px;
+    padding: 15px;
+    background-color: #edab79;
+}
+
+.firstWeekOfSchool {
+    border-radius: 10;
+    border-color: black;
+    border-width: 2px;
+    padding: 15px;
+    background-color: #95b9e8;
+}
+
+.height {
+    /* height: calc(100vh - 220px); */
+    background-color: #f5f7fa;
+    display: flex;
+    justify-content: center;
+}

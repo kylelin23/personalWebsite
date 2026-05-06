@@ -1,0 +1,37 @@
+/* [project]/personalWebsite/src/components/comment/comment.module.css [app-client] (css) */
+.comment-module__WXg2Ya__userText {
+  color: #000;
+  font-family: Lucida Sans, Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif;
+  font-size: 1.25em;
+}
+
+.comment-module__WXg2Ya__commentText {
+  color: #000;
+  font-family: Lucida Sans, Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.comment-module__WXg2Ya__dateText {
+  color: #000;
+  font-family: Lucida Sans, Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif;
+  font-size: 1em;
+}
+
+.comment-module__WXg2Ya__commentContainer {
+  border-width: 2px;
+  border-color: #000;
+  border-radius: 15px;
+  flex-direction: column;
+  width: 40vw;
+  padding: 10px;
+  display: flex;
+}
+
+.comment-module__WXg2Ya__comments {
+  flex-direction: column;
+  gap: 20px;
+  display: flex;
+}
+
+/*# sourceMappingURL=personalWebsite_src_components_comment_comment_module_css_bad6b30c._.single.css.map*/

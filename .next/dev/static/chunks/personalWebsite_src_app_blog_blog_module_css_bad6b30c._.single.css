@@ -1,0 +1,55 @@
+/* [project]/personalWebsite/src/app/blog/blog.module.css [app-client] (css) */
+.blog-module__0jPoPW__gradientContainer {
+  background: url("../media/subtle-prism.a19e5602.svg") center / 100%;
+  justify-content: center;
+  height: calc(100vh - 80px);
+  padding-top: 15vh;
+  display: flex;
+}
+
+.blog-module__0jPoPW__pageTitle {
+  color: #fff;
+  font-family: Lucida Sans, Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif;
+  font-size: 100px;
+  font-weight: bold;
+}
+
+.blog-module__0jPoPW__infoContainer {
+  background-color: #f5f7fa;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 275px;
+  display: flex;
+}
+
+.blog-module__0jPoPW__link {
+  color: #000;
+  font-family: Lucida Sans, Lucida Sans Regular, Lucida Grande, Lucida Sans Unicode, Geneva, Verdana, sans-serif;
+  font-size: 2em;
+}
+
+.blog-module__0jPoPW__midAutumnContainer {
+  background-color: #edab79;
+  border-width: 2px;
+  border-color: #000;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.blog-module__0jPoPW__firstWeekOfSchool {
+  background-color: #95b9e8;
+  border-width: 2px;
+  border-color: #000;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.blog-module__0jPoPW__height {
+  background-color: #f5f7fa;
+  justify-content: center;
+  display: flex;
+}
+
+/*# sourceMappingURL=personalWebsite_src_app_blog_blog_module_css_bad6b30c._.single.css.map*/

@@ -1,0 +1,35 @@
+.userText {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: black;
+    font-size: 1.25em;
+}
+
+.commentText {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    line-height: 1.5;
+    color: black;
+    font-size: 1em;
+}
+
+.dateText {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: black;
+    font-size: 1em;
+}
+
+.commentContainer {
+    display: flex;
+    flex-direction: column;
+    border-color: black;
+    border-radius: 15;
+    border-width: 2px;
+    padding: 10px;
+    width: 40vw;
+
+}
+
+.comments {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

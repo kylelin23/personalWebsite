@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/personalWebsite/src/components/footer/footer.module.css"],"sourcesContent":[".footer {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    padding-top: 30px;\n    padding-bottom: 30px;\n    gap: 10px;\n    background-color: white;\n}\n\n.footerText {\n    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;\n    font-weight: bold;\n    color: black;\n}"],"names":[],"mappings":"AAAA;;;;;;;;;;AAUA"}}]
+}

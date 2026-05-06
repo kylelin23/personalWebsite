@@ -1,0 +1,38 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-bottom: 1px solid gray;
+    height: 80px;
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.navList {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    color: black;
+    text-decoration: none;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.logo:hover {
+    color: lightskyblue;
+}
+
+.navbarLink {
+    color: black;
+    text-decoration: none;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.navbarLink:hover {
+    color: lightskyblue;
+}
