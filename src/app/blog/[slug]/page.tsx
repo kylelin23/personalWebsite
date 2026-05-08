@@ -32,25 +32,27 @@ async function getBlog(slug: string) {
 }
 
 export default async function Blog(props: Props) {
-	const { slug } = await props.params;
-
+    const { slug } = await props.params;
     const blog = await getBlog(slug);
 
+    if (!blog) {
+        return <div>Blog post not found for slug: {slug}</div>;
+    }
 
-	return (
-        <div className = {style.height}>
-			<div>
-				<BlogPreview
-					key = {blog.slug}
-					title = {blog.title}
-					date = {blog.date}
-					description = {blog.description}
-					image = {blog.image}
-					imageAlt = {blog.imageAlt}
-					comments = {blog.comments}
-					slug = {blog.slug}
-				/>
-			</div>
-		</div>
+    return (
+        <div className={style.height}>
+            <div>
+                <BlogPreview
+                    key={blog.slug}
+                    title={blog.title}
+                    date={blog.date}
+                    description={blog.description}
+                    image={blog.image}
+                    imageAlt={blog.imageAlt}
+                    comments={blog.comments}
+                    slug={blog.slug}
+                />
+            </div>
+        </div>
     )
 }
