@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+
 
 const ISLE_DATA = [
   { id:'home',      name:'Home Island',      lbl:'Home',      pX:.50, pY:.50, r:90, theme:'emerald' },
@@ -37,22 +38,26 @@ export default function Home(){
   const islesRef=useRef<Isle[]>([]);
   const nearRef=useRef<Isle|null>(null);
   const [near,setNear]=useState<string|null>(null);
-  const [screen,setScreen]=useState<'loading'|'splash'|'game'>('loading');
+  const searchParams = useSearchParams();
+  const [screen, setScreen] = useState<'loading'|'splash'|'game'>(
+    searchParams.get('screen') === 'game' ? 'game' : 'loading'
+  );
   const [progress,setProgress]=useState(0);
   const [loadText,setLoadText]=useState('Creating Map');
 
   // Loading screen
   useEffect(()=>{
-    const texts=['Creating Map','Charting Islands','Raising Sails','Stocking Provisions','Setting Course'];
-    let p=0,ti=0;
-    const interval=setInterval(()=>{
-      p+=Math.random()*12+4;
-      if(p>=100){p=100;clearInterval(interval);setTimeout(()=>setScreen('splash'),400);}
-      setProgress(Math.min(p,100));
-      if(Math.floor(p/20)!==ti){ti=Math.floor(p/20);setLoadText(texts[Math.min(ti,texts.length-1)]);}
-    },120);
-    return()=>clearInterval(interval);
-  },[]);
+  if(screen==='game') return;
+  const texts=['Creating Map','Charting Islands','Raising Sails','Stocking Provisions','Setting Course'];
+  let p=0,ti=0;
+  const interval=setInterval(()=>{
+    p+=Math.random()*12+4;
+    if(p>=100){p=100;clearInterval(interval);setTimeout(()=>setScreen('splash'),400);}
+    setProgress(Math.min(p,100));
+    if(Math.floor(p/20)!==ti){ti=Math.floor(p/20);setLoadText(texts[Math.min(ti,texts.length-1)]);}
+  },120);
+  return()=>clearInterval(interval);
+},[]);
 
   // Game init
   useEffect(()=>{

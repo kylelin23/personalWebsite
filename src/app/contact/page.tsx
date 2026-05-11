@@ -70,17 +70,16 @@ export default function Contact() {
         {/* Header */}
         <div style={{textAlign:'center',marginBottom:40}}>
           <div style={{fontSize:40,marginBottom:12}}>⚓</div>
-          <h1 style={{fontSize:'2rem',fontWeight:'bold',margin:'0 0 8px',letterSpacing:2,animation:'glow 3s ease-in-out infinite'}}>Contact Harbor</h1>
-          <p style={{color:'rgba(200,160,80,.5)',fontSize:11,letterSpacing:3,textTransform:'uppercase',margin:0}}>Send a message in a bottle</p>
+          <h1 style={{fontSize:'2rem',fontWeight:'bold',margin:'0 0 8px',letterSpacing:2,animation:'glow 3s ease-in-out infinite'}}>Contact</h1>
+          <p style={{color:'rgba(200,160,80,.5)',fontSize:11,letterSpacing:3,textTransform:'uppercase',margin:0}}>Send a message to me!</p>
         </div>
 
         {/* Form card */}
         <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(200,160,70,.15)',borderRadius:16,padding:'36px 40px',backdropFilter:'blur(12px)'}}>
           {sent ? (
             <div style={{textAlign:'center',padding:'20px 0'}}>
-              <div style={{fontSize:48,marginBottom:16}}>📬</div>
               <h2 style={{color:'#80ff90',margin:'0 0 8px',fontSize:'1.3rem'}}>Message Sent!</h2>
-              <p style={{color:'rgba(200,168,112,.6)',fontSize:13,margin:'0 0 24px'}}>Your bottle has been cast into the sea. I'll respond soon!</p>
+              <p style={{color:'rgba(200,168,112,.6)',fontSize:13,margin:'0 0 24px'}}>Your message has been sent. I'll respond soon!</p>
               <button className="submit-btn" onClick={()=>setSent(false)} style={{width:'auto',padding:'10px 32px'}}>Send Another</button>
             </div>
           ) : (
@@ -92,7 +91,7 @@ export default function Contact() {
 
               <div style={{marginBottom:22}}>
                 <label className="contact-label" htmlFor="email">Email Address</label>
-                <input className="contact-input" type="email" id="email" name="email" placeholder="captain@ship.sea"/>
+                <input className="contact-input" type="email" id="email" name="email" placeholder="example@example.com"/>
               </div>
 
               <div style={{marginBottom:28}}>
@@ -122,7 +121,7 @@ export default function Contact() {
 
         {/* Back link */}
         <div style={{textAlign:'center',marginTop:20}}>
-          <Link className="back-link" href="/">← Back to the Sea</Link>
+          <Link className="back-link" href="/?screen=game">← Back to the Sea</Link>
         </div>
       </div>
     </div>
