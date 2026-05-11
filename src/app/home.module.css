@@ -217,18 +217,26 @@
     text-transform: uppercase;
 }
 
+/* ── Both Kyle and Lin glow the same color ── */
 .name {
     font-size: 56px;
     font-weight: 800;
-    color: #eef0ff;
+    color: #d0e4ff;
     font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
     margin: 0;
     line-height: 1;
+    text-shadow:
+        0 0 20px rgba(180, 210, 255, 0.8),
+        0 0 40px rgba(180, 210, 255, 0.4),
+        0 0 80px rgba(180, 210, 255, 0.2);
 }
 
 .accent {
     color: #d0e4ff;
-    text-shadow: 0 0 24px rgba(180, 210, 255, 0.7);
+    text-shadow:
+        0 0 20px rgba(180, 210, 255, 0.8),
+        0 0 40px rgba(180, 210, 255, 0.4),
+        0 0 80px rgba(180, 210, 255, 0.2);
 }
 
 .sub {
