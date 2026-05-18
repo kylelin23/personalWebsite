@@ -5,7 +5,7 @@ import connectDB from "../../database/db"
 async function getProjects(){
   try {
     await connectDB();
-    const projects = await projectSchema.find();
+    const projects = await projectSchema.find().sort({ key: 1 });
     return projects;
   } catch (err) {
     console.error('FULL ERROR:', err);

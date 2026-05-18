@@ -31,16 +31,6 @@ const projects: Project[] = [
         key: 1,
     },
     {
-        title: "Aether",
-        tech: 'React Native, Expo Go, Supabase',
-        description: "When college students and young adults enter the adult world, they face many challenges, one of which is financial responsibility. Being a student in college or entering life as an adult allows individuals to spend as much as they like on items such as food, fashion, and accessories. This in turn creates bad spending habits leading to irresponsible and unchecked spending. The purpose of this app is to help control this chaotic spending.",
-        image: "assets/aetherScreenshot.png",
-        imageAlt: "Aether Screenshot",
-        imageLink: 'https://github.com/kylelin23/aether',
-        imageWidth: 100,
-        key: 2,
-    },
-    {
         title: "Personal Website",
         tech: 'React',
         description: "This is a personal website built using the Hack4Impact Starter Pack! The goal of this website is to showcase who I am and my skills as a software engineer. Features of the website include an about me page, my resume, a blog, a portfolio, and a contact page in case you ever need to contact me!",
@@ -48,7 +38,7 @@ const projects: Project[] = [
         imageAlt: "Personal Website Screenshot",
         imageLink: '/',
         imageWidth: 300,
-        key: 3,
+        key: 2,
     },
 ];
 export default projects;

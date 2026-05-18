@@ -25,20 +25,38 @@ export const programmingLanguages: Skill[] = [
         key: 2
     },
     {
+        name: 'SQL (Postgres)',
+        img: 'assets/logos/postgresqlLogo.png',
+        imgAlt: 'PostgreSQL Logo',
+        key: 3
+    },
+    {
         name: 'JavaScript',
         img: 'assets/logos/javascriptLogo.png',
         imgAlt: 'JavaScript Logo',
-        key: 3
+        key: 4
     },
     {
         name: 'TypeScript',
         img: 'assets/logos/typescriptLogo.png',
         imgAlt: 'TypeScript Logo',
-        key: 4
+        key: 5
+    },
+    {
+        name: 'HTML',
+        img: 'assets/logos/htmlIcon.png',
+        imgAlt: 'HTML Logo',
+        key: 6
+    },
+    {
+        name: 'CSS',
+        img: 'assets/logos/cssIcon.png',
+        imgAlt: 'CSS Logo',
+        key: 7
     },
 ]
 
-export const frontEnd: Skill[] = [
+export const frameworks: Skill[] = [
     {
         name: 'React Native',
         img: 'assets/logos/reactNativeIcon.png',
@@ -57,48 +75,9 @@ export const frontEnd: Skill[] = [
         imgAlt: 'Vite Logo',
         key: 2
     },
-    {
-        name: 'HTML',
-        img: 'assets/logos/htmlIcon.png',
-        imgAlt: 'HTML Logo',
-        key: 3
-    },
-    {
-        name: 'CSS',
-        img: 'assets/logos/cssIcon.png',
-        imgAlt: 'CSS Logo',
-        key: 4
-    },
-    {
-        name: 'Figma',
-        img: 'assets/logos/figmaIcon.png',
-        imgAlt: 'Figma Logo',
-        key: 5
-    },
 ]
 
-export const backEnd: Skill[] = [
-    {
-        name: 'Supabase',
-        img: 'assets/logos/supabase-logo-icon.png',
-        imgAlt: 'Supabase Logo',
-        key: 0
-    },
-    {
-        name: 'PostgreSQL',
-        img: 'assets/logos/postgresqlLogo.png',
-        imgAlt: 'PostgreSQL Logo',
-        key: 1
-    },
-    {
-        name: 'MongoDB',
-        img: 'assets/logos/mongoDBLogo.png',
-        imgAlt: 'MongoDB Logo',
-        key: 2
-    },
-]
-
-export const other: Skill[] = [
+export const developerTools: Skill[] = [
     {
         name: 'Git',
         img: 'assets/logos/gitLogo.png',
@@ -110,6 +89,24 @@ export const other: Skill[] = [
         img: 'assets/logos/github-mark.png',
         imgAlt: 'GitHub Logo',
         key: 1
+    },
+    {
+        name: 'Docker',
+        img: 'assets/logos/dockerLogo.svg',
+        imgAlt: 'Docker Logo',
+        key: 2
+    },
+    {
+        name: 'VSCode',
+        img: 'assets/logos/vscode.svg',
+        imgAlt: 'VSCode Logo',
+        key: 3
+    },
+    {
+        name: 'MongoDB',
+        img: 'assets/logos/mongoDBLogo.png',
+        imgAlt: 'MongoDB Logo',
+        key: 4
     },
 ]
 
