@@ -975,7 +975,7 @@ export default function Home(){
       if(trailRef.current.length>TRAIL_LEN)trailRef.current.shift();
       nearRef.current=null;
       islesRef.current.forEach(i=>{if(Math.hypot(s.x-i.x,s.y-i.y)<IDIST)nearRef.current=i;});
-      setNear(nearRef.current?.id||null);
+      setNear((nearRef.current as Isle|null)?.id||null);
 
       // Update creatures with steering
       whalesRef.current.forEach(wh=>steer(wh,1.1,islesRef.current,W,H));
