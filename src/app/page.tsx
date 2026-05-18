@@ -70,7 +70,9 @@ export default function Home(){
   const [loadText,setLoadText]=useState('Creating Map');
 
   useEffect(()=>{
-    // Always start at splash on every reload — ignore ?screen=game
+    const params=new URLSearchParams(window.location.search);
+    if(params.get('go')==='game'){setScreen('game');return;}
+    // All other loads (including reloads of /?screen=game) start at splash
   },[]);
 
   useEffect(()=>{
@@ -1176,7 +1178,8 @@ export default function Home(){
         <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',zIndex:20,background:'rgba(3,9,18,0.6)',backdropFilter:'blur(3px)'}}>
           <div style={{background:'rgba(8,18,40,0.97)',border:'1px solid rgba(200,168,80,0.4)',borderRadius:16,padding:'40px 52px',textAlign:'center',fontFamily:'Georgia,serif',color:'#f5e6c0',maxWidth:420,boxShadow:'0 0 60px rgba(0,0,0,0.8)'}}>
             <div style={{fontSize:36,marginBottom:16}}>⚓</div>
-            <h2 style={{fontSize:'1.3rem',fontWeight:'bold',letterSpacing:3,margin:'0 0 18px',color:'#f5e6c0'}}>Welcome Aboard</h2>
+            <h2 style={{fontSize:'1.3rem',fontWeight:'bold',letterSpacing:3,margin:'0 0 8px',color:'#f5e6c0'}}>Welcome Aboard</h2>
+            <p style={{fontSize:12,color:'rgba(200,168,112,0.6)',letterSpacing:2,textTransform:'uppercase',marginBottom:28}}>Captain's Briefing</p>
 
             {/* Controls grid */}
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'12px 24px',marginBottom:28,textAlign:'left'}}>
@@ -1184,7 +1187,7 @@ export default function Home(){
                 {keys:'W A S D',desc:'Sail the ship'},
                 {keys:'↑ ↓ ← →',desc:'Arrow keys work too'},
                 {keys:'E',desc:'Visit nearby island'},
-                {keys:'Click',desc:'Can also click island to visit'},
+                {keys:'Click',desc:'Click island to visit'},
               ].map(({keys,desc})=>(
                 <div key={keys} style={{display:'flex',alignItems:'center',gap:10}}>
                   <kbd style={{background:'rgba(200,160,50,.15)',border:'1px solid rgba(200,160,80,0.4)',borderRadius:5,padding:'3px 9px',fontSize:11,fontFamily:'Georgia,serif',color:'#c8a870',whiteSpace:'nowrap'}}>{keys}</kbd>
@@ -1194,7 +1197,7 @@ export default function Home(){
             </div>
 
             <div style={{height:1,background:'rgba(200,160,80,0.15)',marginBottom:24}}/>
-            <p style={{fontSize:12,color:'rgba(200,168,112,0.55)',marginBottom:24,letterSpacing:1}}>Sail to each island to explore my website!</p>
+            <p style={{fontSize:12,color:'rgba(200,168,112,0.55)',marginBottom:24,letterSpacing:1}}>Sail to each island to explore a section of my portfolio. The ship is you!</p>
 
             <button
               onClick={()=>setShowTutorial(false)}

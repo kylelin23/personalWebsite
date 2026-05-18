@@ -40,6 +40,11 @@ export default function Contact() {
   return (
     <div style={{minHeight:'100vh',background:'#050c18',fontFamily:'Georgia,serif',color:'#f5e6c0',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'40px 20px',position:'relative',overflow:'hidden'}}>
 
+      {/* Back link — top left */}
+      <div style={{position:'fixed',top:20,left:24,zIndex:10}}>
+        <Link className="back-link" href="/?go=game">← Back to the Sea</Link>
+      </div>
+
       {/* Ocean line background */}
       <div style={{position:'absolute',inset:0,opacity:0.08,background:'repeating-linear-gradient(0deg,transparent,transparent 48px,rgba(80,150,240,0.5) 48px,rgba(80,150,240,0.5) 50px)',pointerEvents:'none'}}/>
 
@@ -61,8 +66,8 @@ export default function Contact() {
         .submit-btn:disabled{opacity:0.5;cursor:not-allowed;}
         .footer-link{color:rgba(200,160,80,.45);font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color 0.2s ease;}
         .footer-link:hover{color:#c8a870;}
-        .back-link{color:rgba(200,160,80,.3);font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color 0.2s ease;}
-        .back-link:hover{color:rgba(200,160,80,.6);}
+        .back-link{color:rgba(200,160,80,.6);font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:color 0.2s ease;}
+        .back-link:hover{color:#c8a870;}
       `}</style>
 
       <div style={{position:'relative',zIndex:2,width:'100%',maxWidth:520,animation:'fadeUp 0.7s ease forwards'}}>
@@ -105,7 +110,7 @@ export default function Contact() {
                 </div>
               )}
 
-              <button className="submit-btn" type="button" onClick={handleClick} disabled={sending}>
+              <button className="submit-btn" type="button" onClick={handleClick} disabled={sending} style={{marginTop:20}}>
                 {sending ? 'Sending...' : '⚓ Send Message'}
               </button>
             </form>
@@ -117,11 +122,6 @@ export default function Contact() {
           <Link className="footer-link" href="https://www.linkedin.com/in/kyle-lin-584235295/" target="_blank" rel="noreferrer">LinkedIn</Link>
           <Link className="footer-link" href="https://github.com/kylelin23" target="_blank" rel="noreferrer">GitHub</Link>
           <Link className="footer-link" href="mailto:linkyle0924@gmail.com">Email</Link>
-        </div>
-
-        {/* Back link */}
-        <div style={{textAlign:'center',marginTop:20}}>
-          <Link className="back-link" href="/?screen=game">← Back to the Sea</Link>
         </div>
       </div>
     </div>
