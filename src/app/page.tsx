@@ -71,8 +71,13 @@ export default function Home(){
 
   useEffect(()=>{
     const params=new URLSearchParams(window.location.search);
-    if(params.get('go')==='game'){setScreen('game');return;}
-    // All other loads (including reloads of /?screen=game) start at splash
+    if(params.get('go')==='game'){
+      // Remove the param from URL so a reload starts at splash
+      window.history.replaceState({},'','/');
+      setScreen('game');
+      return;
+    }
+    // All other loads start at splash
   },[]);
 
   useEffect(()=>{

@@ -1,65 +1,57 @@
-import style from './comment.module.css'
-
-
-{/* When we pass props, the name that we use to pass values
-		is the key for the type
-*/}
-
 export type IComment = {
   user: string;
   comment: string;
-  time: Date;
+  time: Date | string;
 };
 
 type CommentProps = {
-    comments: IComment[];
+  comments: IComment[];
 }
 
-
-{/* Modularizing code into seperate functions is useful.
-		Makes your code look nicer and allows for better readability.
-	*/}
-function parseCommentTime(time: Date){
-
-    const date = time.toString();
-    const month = date.slice(5,7);
-    const day = date.slice(8,10);
-    const dayNumber = Number(day);
-    const year = date.slice(0, 4);
-
-    const months: Record<string, string> = {
-        '01': 'January',
-        '02': 'February',
-        '03': 'March',
-        '04': 'April',
-        '05': 'May',
-        '06': 'June',
-        '07': 'July',
-        '08': 'August',
-        '09': 'September',
-        '10': 'October',
-        '11': 'November',
-        '12': 'December'
-    };
-
-    return (months[month] + ' ' + dayNumber + ', ' + year)
-
-
+function parseCommentTime(time: Date | string){
+  if(!time) return '';
+  // If it's already a plain readable string, just return it
+  if(typeof time === 'string' && isNaN(Date.parse(time))) return time;
+  try {
+    return new Date(time).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  } catch {
+    return String(time);
+  }
 }
 
 function Comment({ comments }: CommentProps) {
+  if (!comments || comments.length === 0) {
     return (
-        <div className = {style.comments}>
-            {comments.map ((comment, index) =>
-                <div className = {style.commentContainer} key = {index}>
-                    <div className = {style.userText}>{comment.user}</div>
-                    <div className = {style.commentText}>{comment.comment}</div>
-                <div className = {style.dateText}>{parseCommentTime(comment.time)}</div>
-            </div>
-            )}
-
-        </div>
+      <div style={{textAlign:'center',padding:'24px 0',color:'rgba(200,168,112,0.3)',fontSize:12,letterSpacing:2,textTransform:'uppercase'}}>
+        No comments yet. Be the first!
+      </div>
     );
+  }
+
+  return (
+    <div style={{display:'flex',flexDirection:'column',gap:12,marginTop:20}}>
+      {comments.map((comment, index) => (
+        <div key={index} style={{
+          background:'rgba(255,255,255,0.03)',
+          border:'1px solid rgba(200,160,70,.12)',
+          borderRadius:10,
+          padding:'14px 18px',
+        }}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
+            <span style={{fontWeight:'bold',fontSize:13,color:'#f5e6c0',letterSpacing:1}}>
+              {comment.user}
+            </span>
+            <span style={{fontSize:10,color:'rgba(200,160,80,0.4)',letterSpacing:1,textTransform:'uppercase'}}>
+              {parseCommentTime(comment.time)}
+            </span>
+          </div>
+          <p style={{fontSize:13,lineHeight:1.7,color:'rgba(200,168,112,0.75)',margin:0}}>
+            {comment.comment}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default Comment;
