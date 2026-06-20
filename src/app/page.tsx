@@ -43,6 +43,12 @@ const CAT={angle:1.2,speed:0.004};
 const FOAM=Array.from({length:60},(_,i)=>({pX:((i*37*127+113)%9973)/9973,pY:((i*53*89+227)%9871)/9871,ph:i*2.17,sz:1.5+(i%3)*0.7}));
 const ACCEL=0.2,FRIC=0.87,MSPD=4.0,IDIST=185,TRAIL_LEN=80;
 type Isle=typeof ISLE_DATA[0]&{x:number;y:number};
+
+const SUBTITLES=[
+  "Sail the seas to learn more about me",
+  "Built with React and MongoDB",
+  "Computer Science Major at Cal Poly SLO",
+];
 type Pt={x:number;y:number};
 type CS={x:number;y:number;vx:number;vy:number;ang:number};
 type SS=CS&{trail:Pt[]};
@@ -68,6 +74,9 @@ export default function Home(){
   const [screen,setScreen]=useState<'loading'|'splash'|'game'>('splash');
   const [progress,setProgress]=useState(0);
   const [loadText,setLoadText]=useState('Creating Map');
+  const [subtitleIndex,setSubtitleIndex]=useState(0);
+  const [transitioning,setTransitioning]=useState(false);
+  const [entering,setEntering]=useState(true);
 
   useEffect(()=>{
     const params=new URLSearchParams(window.location.search);
@@ -79,6 +88,20 @@ export default function Home(){
     }
     // All other loads start at splash
   },[]);
+
+  // Cycle through subtitle phrases + camera-approach entrance
+  useEffect(()=>{
+    if(screen!=='splash')return;
+    setSubtitleIndex(0);
+    setTransitioning(false);
+    setEntering(true);
+
+    const enterTimeout = setTimeout(() => setEntering(false), 750);
+    const iv=setInterval(()=>{
+      setSubtitleIndex(i=>(i+1)%SUBTITLES.length);
+    },3200);
+    return()=>{clearInterval(iv);clearTimeout(enterTimeout);};
+  },[screen]);
 
   useEffect(()=>{
     if(screen!=='game')return;
@@ -312,6 +335,7 @@ export default function Home(){
         ctx.beginPath();ctx.arc(0,-7,6,0,Math.PI*2);ctx.fillStyle='#999';ctx.fill();
         // Ears
         ctx.beginPath();ctx.moveTo(-5,-11);ctx.lineTo(-3,-16);ctx.lineTo(0,-12);ctx.fillStyle='#888';ctx.fill();
+        // Triangle ears
         ctx.beginPath();ctx.moveTo(5,-11);ctx.lineTo(3,-16);ctx.lineTo(0,-12);ctx.fillStyle='#888';ctx.fill();
         // Inner ears
         ctx.beginPath();ctx.moveTo(-4,-12);ctx.lineTo(-3,-15);ctx.lineTo(-1,-12);ctx.fillStyle='#ffaaaa';ctx.fill();
@@ -393,7 +417,7 @@ export default function Home(){
       ctx.beginPath();ctx.arc(20,2.5,1.8,0,Math.PI*2);ctx.fillStyle='#111';ctx.fill();
       // 4 flippers
       const fa=Math.sin(tick*0.08+s.x*0.002)*0.6;
-      [[8,12,fa],[8,-12,-fa],[-6,11,-fa],[-6,-11,fa]].forEach(([fx,fy,fa2])=>{
+      [[8,12,fa],[8,-12,-fa],[-6,11,-fa],[-6,-11,fa]].forEach(([fx,fy,fa2]) => {
         ctx.beginPath();ctx.moveTo(fx as number,fy as number);ctx.lineTo((fx as number)+16*Math.cos(fa2 as number),(fy as number)+16*Math.sin(fa2 as number));ctx.lineTo((fx as number)+8,fy as number);ctx.fillStyle='#3a7a30';ctx.fill();
       });
       // Tail (left = behind)
@@ -499,7 +523,7 @@ export default function Home(){
         for(let sd=0;sd<7;sd++){ctx.beginPath();ctx.moveTo(x-r*0.36,y-r*0.37+sd*r*0.06);ctx.lineTo(x+r*0.36,y-r*0.37+sd*r*0.06);ctx.strokeStyle='rgba(0,0,0,0.06)';ctx.lineWidth=1;ctx.stroke();}
 
         // Steeply pitched main roof — dark red
-        ctx.beginPath();ctx.moveTo(x-r*0.42,y-r*0.42);ctx.lineTo(x,y-r*0.75);ctx.lineTo(x+r*0.42,y-r*0.42);ctx.closePath();
+        ctx.beginPath();ctx.moveTo(x-r*0.42,y-r*0.42);ctx.lineTo(x,y-r*0.75);ctx.lineTo(x+r+0.42,y-r*0.42);ctx.closePath();
         const rfg=ctx.createLinearGradient(x,y-r*0.75,x,y-r*0.42);rfg.addColorStop(0,'#8a2010');rfg.addColorStop(1,'#c03820');ctx.fillStyle=rfg;ctx.fill();ctx.strokeStyle='#7a1a08';ctx.lineWidth=1.5;ctx.stroke();
         // Roof shingles texture
         for(let row=0;row<5;row++){
@@ -545,7 +569,7 @@ export default function Home(){
         // Porch floor boards
         for(let pb=0;pb<5;pb++){ctx.beginPath();ctx.moveTo(x-r*0.18,y+r*0.04+pb*r*0.03);ctx.lineTo(x+r*0.18,y+r*0.04+pb*r*0.03);ctx.strokeStyle='rgba(0,0,0,0.06)';ctx.lineWidth=0.8;ctx.stroke();}
         // Porch steps
-        for(let ps=0;ps<3;ps++){ctx.beginPath();ctx.rect(x-r*(0.12-ps*0.02),y+r*0.18+ps*r*0.025,r*(0.24-ps*0.04),r*0.025);ctx.fillStyle=`rgba(200,180,130,${0.8-ps*0.1})`;ctx.fill();}
+        for(let ps=0;ps<3;ps++){ctx.beginPath();ctx.rect(x-r*(0.12-ps*0.02),y+r*0.18+ps*r*0.025,r*(0.24-ps*0.04),r*0.025);ctx.fillStyle=`rgba(200,180,130,${0.8-ps*0.15})`;ctx.fill();}
 
         // Front door — arched, dark red with brass knocker
         ctx.beginPath();ctx.rect(x-r*0.07,y-r*0.04,r*0.14,r*0.22);ctx.fillStyle='#5a1808';ctx.fill();
@@ -797,7 +821,6 @@ export default function Home(){
         ctx.save();ctx.shadowColor='#ff8020';ctx.shadowBlur=4;ctx.beginPath();ctx.arc(x+r*0.38,y+r*0.1,r*0.025,0,Math.PI*2);ctx.strokeStyle='#ff6010';ctx.lineWidth=2;ctx.stroke();ctx.restore();
         ctx.beginPath();ctx.moveTo(x+r*0.38,y+r*0.06);ctx.lineTo(x+r*0.38,y+r*0.02);ctx.strokeStyle='#888';ctx.lineWidth=1.5;ctx.stroke();
 
-        // Floating graduation caps + diplomas — REMOVED, replaced with static display case
         // Diploma display on wall (static)
         ctx.save();ctx.translate(x+r*0.32,y-r*0.28);ctx.rotate(0);ctx.globalAlpha=0.9;
         ctx.beginPath();ctx.rect(-r*0.13,-r*0.065,r*0.26,r*0.09);ctx.fillStyle='#f8f4e8';ctx.fill();ctx.strokeStyle='#c8a050';ctx.lineWidth=1.5;ctx.stroke();
@@ -942,7 +965,7 @@ export default function Home(){
       islesRef.current=ISLE_DATA.map(d=>({...d,x:d.pX*W,y:d.pY*H}));
       const s=shipRef.current,k=keysRef.current;
       let ax=0,ay=0;
-      if(k['ArrowUp']  ||k['w']||k['W'])ay-=ACCEL;
+      if(k['ArrowUp']   ||k['w']||k['W'])ay-=ACCEL;
       if(k['ArrowDown'] ||k['s']||k['S'])ay+=ACCEL;
       if(k['ArrowLeft'] ||k['a']||k['A'])ax-=ACCEL;
       if(k['ArrowRight']||k['d']||k['D'])ax+=ACCEL;
@@ -1056,7 +1079,7 @@ export default function Home(){
 
       {/* Animated compass ring */}
       <div style={{position:'absolute',top:'12%',right:'12%',zIndex:3}}>
-        <div style={{position:'relative',width:80,height:80}}>
+        <div style={{relative: 'relative',width:80,height:80}}>
           {/* Outer ring pulses */}
           <div style={{position:'absolute',inset:-10,borderRadius:'50%',border:'1.5px solid rgba(200,168,80,0.3)',animation:'ringPulse 2s ease-out infinite'}}/>
           <div style={{position:'absolute',inset:-10,borderRadius:'50%',border:'1.5px solid rgba(200,168,80,0.3)',animation:'ringPulse 2s ease-out 0.7s infinite'}}/>
@@ -1115,61 +1138,350 @@ export default function Home(){
   );}
 
   if(screen==='splash'){return(
-    <div style={{position:'relative',width:'100%',height:'100vh',background:'#030912',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',fontFamily:'Georgia,serif',color:'#f5e6c0',overflow:'hidden',cursor:'default'}}>
-      {/* Map lines */}
-      <div style={{position:'absolute',inset:0,opacity:0.13,background:'repeating-linear-gradient(0deg,transparent,transparent 48px,rgba(80,150,240,0.5) 48px,rgba(80,150,240,0.5) 50px)',pointerEvents:'none'}}/>
-      <style>{`
-        @keyframes glow{0%,100%{text-shadow:0 0 30px rgba(200,160,80,.3),0 0 60px rgba(200,160,80,.1)}50%{text-shadow:0 0 60px rgba(200,160,80,.8),0 0 100px rgba(200,160,80,.3)}}
-        @keyframes btnGlow{0%,100%{box-shadow:0 0 12px rgba(200,160,70,.2)}50%{box-shadow:0 0 32px rgba(200,160,70,.5)}}
-        @keyframes staggerIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes anchorBob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.05)}}
-      `}</style>
+  <div style={{position:'relative',width:'100%',height:'100vh',background:'#120d09',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Georgia,serif',overflow:'hidden',perspective:1200}}>
+    <style>{`
+      @keyframes glow{0%,100%{text-shadow:0 0 18px rgba(60,35,10,.25)}50%{text-shadow:0 0 36px rgba(80,45,15,.55)}}
+      @keyframes btnGlow{0%,100%{box-shadow:0 0 10px rgba(60,35,10,.15)}50%{box-shadow:0 0 24px rgba(60,35,10,.35)}}
+      @keyframes staggerIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+      @keyframes anchorBob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.04)}}
+      @keyframes subtitleFade{0%{opacity:0;transform:translateY(4px)}15%{opacity:1;transform:translateY(0)}85%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-4px)}}
+      @keyframes sparkleDrift{0%{opacity:0;transform:translate(0,0) scale(0.4)}15%{opacity:1}70%{opacity:0.8}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1)}}
+      @keyframes shipDrift{0%{transform:translateX(-15vw)}100%{transform:translateX(115vw)}}
+      @keyframes shipDriftRev{0%{transform:translateX(115vw) scaleX(-1)}100%{transform:translateX(-15vw) scaleX(-1)}}
+      @keyframes posterEnter{
+        0%{transform:translate3d(0,0,-2600px) scale(.55);filter:blur(2.5px) brightness(.65)}
+        100%{transform:translate3d(0,0,0) scale(1);filter:blur(0) brightness(1)}
+      }
+      @keyframes posterZoom{
+        0%{transform:translate(-50%,-50%) rotate(-1deg) scale(1);opacity:1;filter:blur(0)}
+        45%{transform:translate(-50%,-50%) rotate(-.5deg) scale(2.1);opacity:1;filter:blur(.3px)}
+        80%{transform:translate(-50%,-50%) rotate(0deg) scale(6);opacity:.5;filter:blur(2px)}
+        100%{transform:translate(-50%,-50%) rotate(0deg) scale(12);opacity:0;filter:blur(7px)}
+      }
+      @keyframes vignetteFlash{0%{opacity:0}55%{opacity:.28}100%{opacity:1}}
+    `}</style>
 
-      {/* Content */}
-      <div style={{position:'relative',zIndex:5,textAlign:'center'}}>
+    {/* Wall */}
+    <div style={{
+      position:'absolute',
+      inset:0,
+      background:'radial-gradient(circle at 50% 38%, #4b3522 0%, #2b1d12 48%, #100b07 100%)',
+    }}/>
+
+    {/* Wall texture */}
+    <div style={{
+      position:'absolute',
+      inset:0,
+      opacity:.16,
+      backgroundImage:'repeating-linear-gradient(0deg, transparent 0px, rgba(255,255,255,.04) 1px, transparent 3px), repeating-linear-gradient(90deg, transparent 0px, rgba(0,0,0,.05) 1px, transparent 4px)',
+      pointerEvents:'none',
+    }}/>
+
+    {/* Window glow */}
+    <div style={{
+      position:'absolute',
+      left:'6%',
+      top:'12%',
+      width:180,
+      height:260,
+      border:'10px solid #24160c',
+      background:'linear-gradient(135deg, rgba(70,150,220,.45), rgba(255,190,90,.25))',
+      boxShadow:'0 0 80px rgba(255,180,80,.18)',
+      opacity:.45,
+    }}/>
+
+    {/* Shelf */}
+    <div style={{
+      position:'absolute',
+      bottom:'16%',
+      left:'12%',
+      right:'12%',
+      height:18,
+      background:'#2a180d',
+      boxShadow:'0 20px 50px rgba(0,0,0,.55)',
+      opacity:.75,
+    }}/>
+
+    {/* Whole camera entrance layer */}
+    <div style={{
+      position:'relative',
+      width:'100%',
+      height:'100%',
+      transformStyle:'preserve-3d',
+      willChange:'transform,filter',
+      animation:entering
+        ? 'posterEnter .75s cubic-bezier(0.6,0.04,0.98,0.335) both'
+        : 'none',
+    }}>
+
+
+      {/* Full wall of background posters */}
+{[
+  {x:-120,y:-105,r:-23,title:'CAL POLY SLO',sub:'Mustangs by the sea',desc:'Computer Science, campus life, projects, and building things in San Luis Obispo.'},
+  {x:-35,y:-135,r:17,title:'CATS',sub:'Tiny chaos engineers',desc:'Curious cats, cozy naps, island mascots, and mysterious keyboard walking.'},
+  {x:58,y:-118,r:-14,title:'REACT.JS',sub:'Interactive UI craft',desc:'Components, hooks, canvas animations, state, routing, and polished web experiences.'},
+  {x:145,y:-92,r:24,title:'AI',sub:'Future builder tools',desc:'Exploring intelligent systems, automation, creative workflows, and human-centered software.'},
+
+  {x:-170,y:-8,r:12,title:'WEB DEV',sub:'Browser worlds',desc:'Building interactive web experiences with modern technologies and playful design.'},
+  {x:-82,y:-42,r:-20,title:'PROJECTS',sub:'Ideas in motion',desc:'A collection of experiments, apps, classwork, and late-night ideas.'},
+  {x:92,y:-28,r:21,title:'CODE',sub:'Write · Debug · Ship',desc:'Turning ideas into clean, efficient, maintainable code.'},
+  {x:182,y:-2,r:-24,title:'TOOLS',sub:'Builder mindset',desc:'Debugging, experimenting, and building tools to solve real problems.'},
+
+  {x:-145,y:82,r:-15,title:'OCEAN MAPS',sub:'Portfolio voyage',desc:'A nautical world of islands, routes, secrets, and stories waiting to be explored.'},
+  {x:-48,y:128,r:26,title:'DESIGN',sub:'Details matter',desc:'Motion, atmosphere, visual polish, and playful interfaces that feel alive.'},
+  {x:72,y:95,r:-22,title:'MUSTANGS',sub:'Cal Poly pride',desc:'Learn by doing, build by trying, improve by shipping.'},
+  {x:162,y:142,r:18,title:'FUTURE',sub:'What comes next',desc:'More projects, more ideas, better design, and smarter tools.'},
+
+  {x:-108,y:205,r:22,title:'SYSTEMS',sub:'Software thinking',desc:'Designing logic, structure, and interactions that work together.'},
+  {x:18,y:232,r:-19,title:'MONGO DB',sub:'Data layer',desc:'Storing, organizing, and serving data for full-stack ideas.'},
+  {x:148,y:198,r:14,title:'UX',sub:'Guide the user',desc:'Clear controls, readable states, and interactions that make sense.'},
+].map((p,i)=>(
+  <div key={i} style={{
+    position:'absolute',
+    left:`calc(50% + ${p.x}vw)`,
+    top:`calc(50% + ${p.y}vh)`,
+    transform:`translate(-50%,-50%) rotate(${p.r}deg)`,
+    width:'min(520px,64vw)',
+    minHeight:'min(610px,68vh)',
+    padding:'72px 40px 46px',
+    background:'linear-gradient(135deg,#ead7ad,#c6a06a)',
+    border:'9px solid #3a2414',
+    boxShadow:'0 38px 85px rgba(0,0,0,.65), inset 0 0 52px rgba(80,40,10,.22)',
+    color:'#1d160f',
+    textAlign:'center',
+    zIndex:3,
+    opacity:.74,
+    pointerEvents:'none',
+    overflow:'hidden',
+  }}>
+    <div style={{
+      position:'absolute',
+      inset:0,
+      opacity:.1,
+      backgroundImage:'repeating-linear-gradient(0deg, transparent 0px, rgba(0,0,0,.12) 1px, transparent 3px)',
+    }}/>
+
+    <div style={{position:'absolute',top:14,left:14,width:14,height:14,borderRadius:'50%',background:'#171717'}}/>
+    <div style={{position:'absolute',top:14,right:14,width:14,height:14,borderRadius:'50%',background:'#171717'}}/>
+    <div style={{position:'absolute',bottom:14,left:14,width:14,height:14,borderRadius:'50%',background:'#171717'}}/>
+    <div style={{position:'absolute',bottom:14,right:14,width:14,height:14,borderRadius:'50%',background:'#171717'}}/>
+
+    <h2 style={{
+      position:'relative',
+      zIndex:2,
+      fontSize:'2rem',
+      margin:'0 0 12px',
+      letterSpacing:4,
+      color:'#1d160f',
+    }}>
+      {p.title}
+    </h2>
+
+    <div style={{
+      position:'relative',
+      zIndex:2,
+      fontSize:12,
+      letterSpacing:3,
+      textTransform:'uppercase',
+      opacity:.68,
+      marginBottom:28,
+    }}>
+      {p.sub}
+    </div>
+
+    <p style={{
+      position:'relative',
+      zIndex:2,
+      fontSize:16,
+      lineHeight:1.6,
+      maxWidth:380,
+      margin:'0 auto',
+      color:'rgba(29,22,15,.78)',
+    }}>
+      {p.desc}
+    </p>
+  </div>
+))}
+      {/* Poster */}
+      <div style={{
+        position:'absolute',
+        left:'50%',
+        top:'50%',
+        transform:'translate(-50%,-50%) rotate(-1deg)',
+        width:'min(620px,82vw)',
+        minHeight:'min(720px,78vh)',
+        padding:'56px 48px',
+        zIndex:5,
+        textAlign:'center',
+        display:'flex',
+        flexDirection:'column',
+        alignItems:'center',
+        justifyContent:'center',
+        background:'linear-gradient(135deg,#ead7ad,#c6a06a)',
+        border:'10px solid #3a2414',
+        boxShadow:'0 40px 90px rgba(0,0,0,.75), 0 10px 22px rgba(0,0,0,.55), inset 0 0 55px rgba(80,40,10,.22)',
+        color:'#1d160f',
+        overflow:'hidden',
+        animation:transitioning
+          ? 'posterZoom 1.05s cubic-bezier(0.55,0,0.4,1) forwards'
+          : 'none',
+      }}>
+
+        {/* Paper texture */}
+        <div style={{
+          position:'absolute',
+          inset:0,
+          opacity:.12,
+          backgroundImage:'repeating-linear-gradient(0deg, transparent 0px, rgba(0,0,0,.12) 1px, transparent 3px)',
+          pointerEvents:'none',
+        }}/>
+
+        {/* Push pins */}
+        {[
+          {top:14,left:14},
+          {top:14,right:14},
+          {bottom:14,left:14},
+          {bottom:14,right:14},
+        ].map((p,i)=>(
+          <div key={i} style={{
+            position:'absolute',
+            ...p,
+            width:14,
+            height:14,
+            borderRadius:'50%',
+            background:'radial-gradient(circle at 35% 30%, #777, #171717)',
+            boxShadow:'0 2px 6px rgba(0,0,0,.55)',
+            zIndex:8,
+          }}/>
+        ))}
+
         {/* Anchor */}
-        <div style={{fontSize:64,marginBottom:20,animation:'anchorBob 3.5s ease-in-out infinite',display:'inline-block',filter:'drop-shadow(0 0 24px rgba(200,160,80,.6))'}}>
-          ⚓
+        <div style={{position:'relative',display:'inline-block',marginBottom:20,zIndex:2}}>
+          <div style={{fontSize:64,animation:'anchorBob 3.5s ease-in-out infinite',display:'inline-block',filter:'drop-shadow(0 0 12px rgba(60,35,10,.35))'}}>
+            ⚓
+          </div>
+
+          {Array.from({length:8}).map((_,i)=>{
+            const angle=(i/8)*Math.PI*2;
+            const dx=Math.cos(angle)*40+(i%2===0?10:-10);
+            const dy=Math.sin(angle)*40-20-i*4;
+            return (
+              <div key={i} style={{
+                position:'absolute',
+                top:'50%',
+                left:'50%',
+                width:i%3===0?4:2.5,
+                height:i%3===0?4:2.5,
+                borderRadius:'50%',
+                background:i%2===0?'#5a3514':'#2a180d',
+                boxShadow:'0 0 6px rgba(60,35,10,0.45)',
+                pointerEvents:'none',
+                '--dx':`${dx}px`,
+                '--dy':`${dy}px`,
+                animation:`sparkleDrift ${2.5+(i%3)*0.6}s ease-out ${i*0.35}s infinite`,
+              } as React.CSSProperties}/>
+            );
+          })}
         </div>
 
-        {/* Name */}
-        <div style={{animation:'staggerIn 0.7s ease forwards',opacity:0}}>
-          <h1 style={{fontSize:'3.2rem',fontWeight:'bold',margin:'0 0 4px',letterSpacing:4,animation:'glow 3s ease-in-out infinite',color:'#f5e6c0'}}>
-            Hey, I'm Kyle Lin
-          </h1>
-        </div>
+        <h1 style={{
+          position:'relative',
+          zIndex:2,
+          fontSize:'3.2rem',
+          fontWeight:'bold',
+          margin:'0 0 4px',
+          letterSpacing:4,
+          animation:'glow 3s ease-in-out infinite',
+          color:'#1d160f',
+          minHeight:'1.2em',
+        }}>
+          Hey, I'm Kyle Lin
+        </h1>
 
-        {/* Divider */}
-        <div style={{animation:'staggerIn 0.7s 0.2s ease forwards',opacity:0,marginBottom:36,marginTop:12}}>
+        <div style={{position:'relative',zIndex:2,animation:'staggerIn 0.7s 1.3s ease forwards',opacity:0,marginBottom:36,marginTop:12}}>
           <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:12}}>
-            <div style={{width:60,height:1,background:'linear-gradient(to right,transparent,rgba(200,160,80,0.4))'}}/>
-            <div style={{fontSize:14,color:'rgba(200,160,80,0.5)'}}>✦</div>
-            <div style={{width:60,height:1,background:'linear-gradient(to left,transparent,rgba(200,160,80,0.4))'}}/>
+            <div style={{width:60,height:1,background:'linear-gradient(to right,transparent,rgba(40,24,12,0.55))'}}/>
+            <div style={{fontSize:14,color:'rgba(40,24,12,0.65)'}}>✦</div>
+            <div style={{width:60,height:1,background:'linear-gradient(to left,transparent,rgba(40,24,12,0.55))'}}/>
           </div>
         </div>
 
-        <div style={{animation:'staggerIn 0.7s 0.35s ease forwards',opacity:0}}>
-          <p style={{fontSize:13,color:'rgba(200,168,112,0.85)',marginBottom:44,letterSpacing:2,textShadow:'0 0 12px rgba(200,160,80,0.5)'}}>Sail the seas to learn more about me</p>
+        <div style={{position:'relative',zIndex:2,animation:'staggerIn 0.7s 1.45s ease forwards',opacity:0,marginBottom:44,height:20}}>
+          <p key={subtitleIndex} style={{
+            fontSize:13,
+            color:'rgba(35,20,10,0.82)',
+            letterSpacing:2,
+            margin:0,
+            animation:'subtitleFade 3.2s ease forwards',
+          }}>
+            {SUBTITLES[subtitleIndex]}
+          </p>
         </div>
 
-        {/* Explore button */}
-        <div style={{animation:'staggerIn 0.7s 0.5s ease forwards',opacity:0}}>
+        <div style={{position:'relative',zIndex:2,animation:'staggerIn 0.7s 1.6s ease forwards',opacity:0,pointerEvents:entering?'none':'auto'}}>
           <button
-            onClick={()=>setScreen('game')}
-            style={{background:'transparent',border:'2px solid #c8a870',borderRadius:2,color:'#f5e6c0',fontFamily:'Georgia,serif',fontSize:'1rem',letterSpacing:6,padding:'16px 60px',cursor:'pointer',textTransform:'uppercase',transition:'all 0.25s ease',animation:'btnGlow 3s ease-in-out infinite'}}
-            onMouseEnter={e=>{const b=e.currentTarget;b.style.background='rgba(200,160,70,.15)';b.style.boxShadow='0 0 40px rgba(200,160,70,.4)';b.style.letterSpacing='8px';}}
-            onMouseLeave={e=>{const b=e.currentTarget;b.style.background='transparent';b.style.boxShadow='';b.style.letterSpacing='6px';}}
+            onClick={()=>{
+              setTransitioning(true);
+              setTimeout(()=>setScreen('game'),980);
+            }}
+            disabled={transitioning}
+            style={{
+              background:'transparent',
+              border:'2px solid #3a2414',
+              borderRadius:2,
+              color:'#1d160f',
+              fontFamily:'Georgia,serif',
+              fontSize:'1rem',
+              letterSpacing:6,
+              padding:'16px 60px',
+              cursor:'pointer',
+              textTransform:'uppercase',
+              transition:'all 0.25s ease',
+              animation:'btnGlow 3s ease-in-out infinite',
+            }}
+            onMouseEnter={e=>{
+              const b=e.currentTarget;
+              b.style.background='rgba(60,35,10,.12)';
+              b.style.boxShadow='0 0 30px rgba(60,35,10,.35)';
+              b.style.letterSpacing='8px';
+            }}
+            onMouseLeave={e=>{
+              const b=e.currentTarget;
+              b.style.background='transparent';
+              b.style.boxShadow='';
+              b.style.letterSpacing='6px';
+            }}
           >
             Explore
           </button>
         </div>
 
-        <div style={{animation:'staggerIn 0.7s 0.65s ease forwards',opacity:0,marginTop:22}}>
-          <p style={{fontSize:10,color:'rgba(200,160,80,0.6)',letterSpacing:3,textTransform:'uppercase',textShadow:'0 0 10px rgba(200,160,80,0.4)'}}>WASD or arrow keys to sail · Click islands to visit</p>
+        <div style={{position:'relative',zIndex:2,animation:'staggerIn 0.7s 1.75s ease forwards',opacity:0,marginTop:22}}>
+          <p style={{
+            fontSize:10,
+            color:'rgba(35,20,10,0.6)',
+            letterSpacing:3,
+            textTransform:'uppercase',
+            margin:0,
+          }}>
+            WASD or arrow keys to sail · Click islands to visit
+          </p>
         </div>
       </div>
     </div>
-  );}
+
+    {transitioning&&(
+      <div style={{
+        position:'absolute',
+        inset:0,
+        background:'#0b1d35',
+        zIndex:10,
+        animation:'vignetteFlash 1.05s cubic-bezier(0.55,0,0.4,1) forwards',
+        pointerEvents:'none',
+      }}/>
+    )}
+  </div>
+);}
 
   return(
     <div style={{position:'relative',width:'100%',height:'100vh',overflow:'hidden',background:'#0b1d35',fontFamily:'Georgia,serif'}}>
