@@ -1,12 +1,173 @@
 // SplashScreen.tsx
 "use client";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 export const SUBTITLES = [
   "Sail the seas to learn more about me",
   "Built with React and MongoDB",
   "Computer Science Major at Cal Poly SLO",
 ];
+
+// A regular grid (90 units apart, both axes) covering the entire
+// canvas the background poster wall occupies — not just two rings —
+// so density is uniform everywhere, including the parts that sit
+// outside the final viewport and only show briefly during the camera
+// dive-in. Only the dead-center point is skipped (that's where the
+// poster itself sits).
+const GRID_TYPES = ['flag','star','compass','rope','cutlasses','anchor','chest','wave','spyglass'];
+const GRID_COORDS: [number, number][] = [
+  [-180,-180],[-180,-90],[-180,0],[-180,90],[-180,180],
+  [-90,-180], [-90,-90], [-90,0], [-90,90], [-90,180],
+  [0,-180],   [0,-90],            [0,90],   [0,180],
+  [90,-180],  [90,-90],  [90,0],  [90,90],  [90,180],
+  [180,-180], [180,-90], [180,0], [180,90], [180,180],
+];
+const WIDE_DECOS = GRID_COORDS.map(([x,y], i) => ({
+  x, y,
+  type: GRID_TYPES[i % GRID_TYPES.length],
+  r: (i % 2 === 0 ? 1 : -1) * (8 + (i % 5) * 2),
+  scale: 0.66 + (i % 4) * 0.045,
+  o: 0.5 + (i % 3) * 0.07,
+}));
+
+const SHAPE_CLIP: Record<string,string> = {
+  circle:    'circle(50% at 50% 50%)',
+  square:    'inset(8% round 18%)',
+  rectangle: 'inset(10% 24% round 14%)',
+  octagon:   'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
+};
+
+function ShapeFrame({ children, border, shape = 'circle', size = 60 }: { children: ReactNode; border: string; shape?: string; size?: number }) {
+  const clip = SHAPE_CLIP[shape] || SHAPE_CLIP.circle;
+  return (
+    <div style={{position:'relative',width:size,height:size}}>
+      <div style={{position:'absolute',inset:0,background:border,clipPath:clip}}/>
+      <div style={{position:'absolute',inset:3,clipPath:clip,background:'radial-gradient(circle at 35% 30%,#ead7ad,#c6a06a)',display:'flex',alignItems:'center',justifyContent:'center',overflow:'hidden'}}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function ImagePatch({ src, border, shape = 'circle', size = 60, imgSize = 34, filter }: { src:string; border:string; shape?:string; size?:number; imgSize?:number; filter?:string }) {
+  return (
+    <ShapeFrame border={border} shape={shape} size={size}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt=""
+        style={{width:imgSize,height:imgSize,objectFit:'contain',filter:filter||'sepia(0.35) saturate(0.75) contrast(0.95)'}}
+      />
+    </ShapeFrame>
+  );
+}
+
+function DecoIcon({ type, spin }: { type: string; spin?: boolean }) {
+  switch (type) {
+    case 'flag':
+      return (
+        <svg width="70" height="92" viewBox="0 0 70 92">
+          <line x1="8" y1="90" x2="8" y2="6" stroke="#3a2414" strokeWidth="4" strokeLinecap="round"/>
+          <path d="M8 8 L62 22 L8 38 Z" fill="#1d160f" stroke="#3a2414" strokeWidth="2"/>
+          <circle cx="27" cy="21" r="6.5" fill="#ead7ad"/>
+          <path d="M22 26 L19 31 M32 26 L35 31" stroke="#ead7ad" strokeWidth="2.5" strokeLinecap="round"/>
+          <path d="M20 18 L24.5 22.5 M24.5 18 L20 22.5" stroke="#1d160f" strokeWidth="1.6" strokeLinecap="round"/>
+          <path d="M30 18 L34.5 22.5 M34.5 18 L30 22.5" stroke="#1d160f" strokeWidth="1.6" strokeLinecap="round"/>
+        </svg>
+      );
+    case 'compass':
+      return (
+        <div style={{position:'relative',width:56,height:56,borderRadius:'50%',background:'radial-gradient(circle at 35% 30%,#ead7ad,#c6a06a)',border:'3px solid #3a2414',display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <div style={{position:'absolute',width:2,height:20,top:6,left:'calc(50% - 1px)',transformOrigin:'50% 75%',animation:spin?'compassDecoSpin 9s linear infinite':'none',borderRadius:1,background:'linear-gradient(to bottom,#a01818 50%,#3a2414 50%)'}}/>
+          <div style={{position:'absolute',top:3,fontSize:7,fontWeight:'bold',color:'#a01818',letterSpacing:1}}>N</div>
+        </div>
+      );
+    case 'rope':
+      return (
+        <svg width="58" height="58" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="26" fill="none" stroke="#8a5a2a" strokeWidth="5"/>
+          <circle cx="32" cy="32" r="18" fill="none" stroke="#a06a32" strokeWidth="5"/>
+          <circle cx="32" cy="32" r="10" fill="none" stroke="#8a5a2a" strokeWidth="5"/>
+          <path d="M32 6 L32 1" stroke="#5a3514" strokeWidth="4" strokeLinecap="round"/>
+        </svg>
+      );
+    case 'cutlasses':
+      return (
+        <svg width="68" height="68" viewBox="0 0 74 74">
+          <g transform="rotate(45 37 37)">
+            <rect x="34" y="6" width="6" height="40" rx="2" fill="#c8c8c8" stroke="#3a2414" strokeWidth="1.5"/>
+            <rect x="30" y="44" width="14" height="8" rx="2" fill="#3a2414"/>
+            <rect x="34" y="50" width="6" height="14" rx="2" fill="#5a3514"/>
+          </g>
+          <g transform="rotate(-45 37 37)">
+            <rect x="34" y="6" width="6" height="40" rx="2" fill="#c8c8c8" stroke="#3a2414" strokeWidth="1.5"/>
+            <rect x="30" y="44" width="14" height="8" rx="2" fill="#3a2414"/>
+            <rect x="34" y="50" width="6" height="14" rx="2" fill="#5a3514"/>
+          </g>
+        </svg>
+      );
+    case 'anchor':
+      return (
+        <svg width="50" height="56" viewBox="0 0 50 56">
+          <circle cx="25" cy="10" r="6" fill="none" stroke="#3a2414" strokeWidth="3"/>
+          <line x1="25" y1="16" x2="25" y2="44" stroke="#3a2414" strokeWidth="3"/>
+          <line x1="13" y1="24" x2="37" y2="24" stroke="#3a2414" strokeWidth="3"/>
+          <path d="M7 34 Q25 54 43 34" fill="none" stroke="#3a2414" strokeWidth="3" strokeLinecap="round"/>
+        </svg>
+      );
+    case 'star':
+      return (
+        <svg width="40" height="40" viewBox="0 0 64 64">
+          <path d="M32 6 L39 27 L60 32 L39 37 L32 58 L25 37 L4 32 L25 27 Z" fill="#ead7ad" stroke="#3a2414" strokeWidth="1.5"/>
+        </svg>
+      );
+    case 'chest':
+      return (
+        <svg width="54" height="46" viewBox="0 0 64 56">
+          <rect x="6" y="26" width="52" height="26" rx="4" fill="#5a3514" stroke="#2a1608" strokeWidth="2.5"/>
+          <path d="M6 26 Q32 6 58 26" fill="#6a4018" stroke="#2a1608" strokeWidth="2.5"/>
+          <rect x="26" y="30" width="12" height="14" rx="2" fill="#c8a020" stroke="#2a1608" strokeWidth="1.5"/>
+        </svg>
+      );
+    case 'spyglass':
+      return (
+        <svg width="62" height="46" viewBox="0 0 64 48">
+          <path d="M6 38 L48 12 L56 24 L14 50 Z" fill="#6a4018" stroke="#2a1608" strokeWidth="2"/>
+          <circle cx="9" cy="40" r="6" fill="#2a1608"/>
+          <circle cx="9" cy="40" r="3" fill="#1d160f"/>
+        </svg>
+      );
+    case 'wave':
+      return (
+        <svg width="70" height="26" viewBox="0 0 70 26">
+          <path d="M2 16 Q12 4 22 16 T42 16 T62 16" stroke="#5a7a92" strokeWidth="3.5" fill="none" strokeLinecap="round"/>
+        </svg>
+      );
+    case 'react':
+      return (
+        <ShapeFrame border="#2a5a5e" shape="octagon" size={62}>
+          <svg width="32" height="32" viewBox="-11.5 -11.5 23 23">
+            <circle r="2.2" fill="#3a6a6e"/>
+            <g stroke="#3a6a6e" strokeWidth="1" fill="none" opacity="0.85">
+              <ellipse rx="11" ry="4.2"/>
+              <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+              <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+            </g>
+          </svg>
+        </ShapeFrame>
+      );
+    case 'calpoly':
+      return <ImagePatch src="/assets/logos/calPolyLogo2.svg.png" border="#1e4d2b" shape="circle" imgSize={38}/>;
+    case 'aws':
+      return <ImagePatch src="/assets/logos/awsIcon2.png" border="#3a2414" shape="square" size={78} imgSize={46}/>;
+    case 'python':
+      return <ImagePatch src="/assets/logos/python-logo-only.png" border="#2b5b84" shape="rectangle" size={78} imgSize={36}/>;
+    case 'github':
+      return <ImagePatch src="/assets/logos/githubLogo.png" border="#24292e" shape="circle" size={78} imgSize={52}/>;
+    default:
+      return null;
+  }
+}
 
 interface SplashScreenProps {
   entering: boolean;
@@ -36,6 +197,10 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
         100% { opacity: 0; }
       }
       @keyframes vignetteFlash{0%{opacity:0}55%{opacity:.28}100%{opacity:1}}
+      @keyframes compassDecoSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+      @media (max-width: 760px){
+        .splash-deco{display:none}
+      }
     `}</style>
 
     <div style={{
@@ -50,18 +215,6 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
       opacity:.16,
       backgroundImage:'repeating-linear-gradient(0deg, transparent 0px, rgba(255,255,255,.04) 1px, transparent 3px), repeating-linear-gradient(90deg, transparent 0px, rgba(0,0,0,.05) 1px, transparent 4px)',
       pointerEvents:'none',
-    }}/>
-
-    <div style={{
-      position:'absolute',
-      left:'6%',
-      top:'12%',
-      width:180,
-      height:260,
-      border:'10px solid #24160c',
-      background:'linear-gradient(135deg, rgba(70,150,220,.45), rgba(255,190,90,.25))',
-      boxShadow:'0 0 80px rgba(255,180,80,.18)',
-      opacity:.45,
     }}/>
 
     <div style={{
@@ -135,6 +288,22 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
           <h2 style={{position:'relative',zIndex:2,fontSize:'2rem',margin:'0 0 12px',letterSpacing:4,color:'#1d160f'}}>{p.title}</h2>
           <div style={{position:'relative',zIndex:2,fontSize:12,letterSpacing:3,textTransform:'uppercase',opacity:.68,marginBottom:28}}>{p.sub}</div>
           <p style={{position:'relative',zIndex:2,fontSize:16,lineHeight:1.6,maxWidth:380,margin:'0 auto',color:'rgba(29,22,15,.78)'}}>{p.desc}</p>
+        </div>
+      ))}
+
+      {/* Extra decorations live far out, never crowding the poster */}
+      {WIDE_DECOS.map((d,i)=>(
+        <div key={i} className="splash-deco" style={{
+          position:'absolute',
+          left:`calc(50% + ${d.x}vw)`,
+          top:`calc(50% + ${d.y}vh)`,
+          transform:`translate(-50%,-50%) rotate(${d.r}deg) scale(${d.scale})`,
+          zIndex:4,
+          opacity:d.o,
+          filter:'drop-shadow(0 6px 10px rgba(0,0,0,.5))',
+          pointerEvents:'none',
+        }}>
+          <DecoIcon type={d.type}/>
         </div>
       ))}
 
@@ -294,6 +463,73 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
             WASD or arrow keys to sail · Click islands to visit
           </p>
         </div>
+      </div>
+
+      {/* The 5 named logos sit close to the poster — nothing else does */}
+
+      <div className="splash-deco" style={{
+        position:'absolute',
+        left:'calc(50% - 34vw)',
+        top:'calc(50% - 26vh)',
+        transform:'translate(-50%,-50%) rotate(-8deg) scale(1.05)',
+        zIndex:6,
+        opacity:.85,
+        filter:'drop-shadow(0 6px 10px rgba(0,0,0,.5))',
+        pointerEvents:'none',
+      }}>
+        <DecoIcon type="calpoly"/>
+      </div>
+
+      <div className="splash-deco" style={{
+        position:'absolute',
+        left:'calc(50% + 29vw)',
+        top:'calc(50% - 34vh)',
+        transform:'translate(-50%,-50%) rotate(10deg) scale(0.9)',
+        zIndex:6,
+        opacity:.85,
+        filter:'drop-shadow(0 6px 10px rgba(0,0,0,.5))',
+        pointerEvents:'none',
+      }}>
+        <DecoIcon type="react"/>
+      </div>
+
+      <div className="splash-deco" style={{
+        position:'absolute',
+        left:'calc(50% + 38vw)',
+        top:'calc(50% - 6vh)',
+        transform:'translate(-50%,-50%) rotate(-12deg) scale(1)',
+        zIndex:6,
+        opacity:.85,
+        filter:'drop-shadow(0 6px 10px rgba(0,0,0,.5))',
+        pointerEvents:'none',
+      }}>
+        <DecoIcon type="aws"/>
+      </div>
+
+      <div className="splash-deco" style={{
+        position:'absolute',
+        left:'calc(50% + 36vw)',
+        top:'calc(50% + 35vh)',
+        transform:'translate(-50%,-50%) rotate(16deg) scale(0.95)',
+        zIndex:6,
+        opacity:.85,
+        filter:'drop-shadow(0 6px 10px rgba(0,0,0,.5))',
+        pointerEvents:'none',
+      }}>
+        <DecoIcon type="python"/>
+      </div>
+
+      <div className="splash-deco" style={{
+        position:'absolute',
+        left:'calc(50% - 35vw)',
+        top:'calc(50% + 20vh)',
+        transform:'translate(-50%,-50%) rotate(-8deg) scale(1)',
+        zIndex:6,
+        opacity:.85,
+        filter:'drop-shadow(0 6px 10px rgba(0,0,0,.5))',
+        pointerEvents:'none',
+      }}>
+        <DecoIcon type="github"/>
       </div>
     </div>
 

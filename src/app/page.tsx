@@ -874,7 +874,7 @@ export default function Home(){
             </div>
 
             <div style={{height:1,background:'rgba(200,160,80,0.15)',marginBottom:24}}/>
-            <p style={{fontSize:12,color:'rgba(200,168,112,0.55)',marginBottom:24,letterSpacing:1}}>Sail to each island to explore a section of my portfolio. The ship is you!</p>
+            <p style={{fontSize:12,color:'rgba(200,168,112,0.55)',marginBottom:24,letterSpacing:1}}>Sail to or click on each island to explore a section of my portfolio. </p>
 
             <button
               onClick={()=>setShowTutorial(false)}
