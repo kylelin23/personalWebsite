@@ -161,7 +161,15 @@ function DecoIcon({ type, spin }: { type: string; spin?: boolean }) {
     case 'aws':
       return <ImagePatch src="/assets/logos/awsIcon2.png" border="#3a2414" shape="square" size={78} imgSize={46}/>;
     case 'python':
-      return <ImagePatch src="/assets/logos/python-logo-only.png" border="#2b5b84" shape="rectangle" size={78} imgSize={36}/>;
+      return (
+        <ImagePatch
+          src="/assets/logos/python-logo-only.png"
+          border="#2b5b84"
+          shape="rectangle"
+          size={100}
+          imgSize={36}
+        />
+  );
     case 'github':
       return <ImagePatch src="/assets/logos/githubLogo.png" border="#24292e" shape="circle" size={78} imgSize={52}/>;
     default:
