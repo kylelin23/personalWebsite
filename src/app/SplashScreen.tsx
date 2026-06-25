@@ -1,6 +1,7 @@
 // SplashScreen.tsx
 "use client";
 import type { CSSProperties, ReactNode } from "react";
+import { useEffect } from "react";
 
 export const SUBTITLES = [
   "Sail the seas to learn more about me",
@@ -185,6 +186,22 @@ interface SplashScreenProps {
 }
 
 export default function SplashScreen({ entering, transitioning, subtitleIndex, onExplore }: SplashScreenProps) {
+  useEffect(() => {
+  const checkBottom = () => {
+    const el = document.elementFromPoint(window.innerWidth / 2, window.innerHeight - 5);
+    console.log("bottom element:", el);
+    console.log("bottom bg:", el ? getComputedStyle(el).backgroundColor : "none");
+    console.log({
+      innerHeight: window.innerHeight,
+      htmlHeight: document.documentElement.clientHeight,
+      bodyHeight: document.body.clientHeight,
+    });
+  };
+
+  setTimeout(checkBottom, 500);
+  setTimeout(checkBottom, 1500);
+  setTimeout(checkBottom, 3000);
+}, []);
   return (
   <div style={{position:'relative',width:'100%',height:'100vh',background:'#120d09',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Georgia,serif',overflow:'hidden',perspective:1200}}>
     <style>{`
@@ -235,8 +252,7 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
       boxShadow:'0 20px 50px rgba(0,0,0,.55)',
       opacity:.75,
     }}/>
-
-    <div style={{
+     <div style={{
       position:'relative',
       width:'100%',
       height:'100%',
@@ -460,17 +476,7 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
           </button>
         </div>
 
-        <div style={{position:'relative',zIndex:2,animation:'staggerIn 0.7s 1.75s ease forwards',opacity:0,marginTop:22}}>
-          <p style={{
-            fontSize:10,
-            color:'rgba(35,20,10,0.6)',
-            letterSpacing:3,
-            textTransform:'uppercase',
-            margin:0,
-          }}>
-            WASD or arrow keys to sail · Click islands to visit
-          </p>
-        </div>
+       
       </div>
 
       {/* The 5 named logos sit close to the poster — nothing else does */}

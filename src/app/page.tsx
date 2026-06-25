@@ -51,6 +51,7 @@ type Pt={x:number;y:number};
 type CS={x:number;y:number;vx:number;vy:number;ang:number};
 type SS=CS&{trail:Pt[]};
 
+const TUTORIAL_SEEN_KEY='hasSeenTutorial';
 
 function shouldSkipHomePosterEntrance(){
   if(typeof window==='undefined') return false;
@@ -61,6 +62,24 @@ function shouldSkipHomePosterEntrance(){
     return flagged || fromInternalIsland;
   }catch{
     return false;
+  }
+}
+
+function hasSeenTutorial(){
+  if(typeof window==='undefined') return false;
+  try{
+    return window.localStorage.getItem(TUTORIAL_SEEN_KEY)==='1';
+  }catch{
+    return false;
+  }
+}
+
+function markTutorialSeen(){
+  if(typeof window==='undefined') return;
+  try{
+    window.localStorage.setItem(TUTORIAL_SEEN_KEY,'1');
+  }catch{
+    // ignore (e.g. storage disabled)
   }
 }
 
@@ -125,7 +144,7 @@ export default function Home(){
   useEffect(()=>{
     if(screen!=='game')return;
     gameStartRef.current=Date.now();
-    setShowTutorial(true);
+    setShowTutorial(!hasSeenTutorial());
     const canvas=cvsRef.current!,ctx=canvas.getContext('2d')!;
 
     function resize(){
@@ -877,7 +896,7 @@ export default function Home(){
             <p style={{fontSize:12,color:'rgba(200,168,112,0.55)',marginBottom:24,letterSpacing:1}}>Sail to or click on each island to explore a section of my portfolio. </p>
 
             <button
-              onClick={()=>setShowTutorial(false)}
+              onClick={()=>{markTutorialSeen();setShowTutorial(false);}}
               style={{background:'transparent',border:'2px solid #c8a870',borderRadius:4,color:'#f5e6c0',fontFamily:'Georgia,serif',fontSize:'0.9rem',letterSpacing:5,padding:'12px 40px',cursor:'pointer',textTransform:'uppercase',transition:'all 0.2s ease'}}
               onMouseEnter={e=>{e.currentTarget.style.background='rgba(200,160,70,.15)';e.currentTarget.style.boxShadow='0 0 24px rgba(200,160,70,.3)';}}
               onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.boxShadow='none';}}
