@@ -6,11 +6,11 @@ import LoadingScreen from "./LoadingScreen";
 import SplashScreen, { SUBTITLES } from "./SplashScreen";
 
 const ISLE_DATA = [
-  { id:'home',      name:'Home Island',      lbl:'Home',      pX:.50, pY:.50, r:145, theme:'emerald' },
+  { id:'home',      name:'Home Island',      lbl:'Home',      pX:.14, pY:.76, r:125, theme:'emerald' },
   { id:'contact',   name:'Contact Island',   lbl:'Contact',   pX:.50, pY:.16, r:105, theme:'sunset'  },
   { id:'blog',      name:'Blog Island',      lbl:'Blog',      pX:.86, pY:.30, r:118, theme:'storm'   },
   { id:'portfolio', name:'Portfolio Island', lbl:'Portfolio', pX:.86, pY:.76, r:140, theme:'golden'  },
-  { id:'resume',    name:'Resume Island',    lbl:'Resume',    pX:.14, pY:.76, r:125, theme:'crystal' },
+  { id:'resume',    name:'Resume Island',    lbl:'Resume',    pX:.50, pY:.50, r:145, theme:'crystal' },
 ];
 const ROUTES:Record<string,string>={home:'/',blog:'/blog/',portfolio:'/portfolio/',resume:'/resume/',contact:'/contact/'};
 const THEMES:Record<string,{sand:string;top:string;accent:string}>={
@@ -51,8 +51,6 @@ type Pt={x:number;y:number};
 type CS={x:number;y:number;vx:number;vy:number;ang:number};
 type SS=CS&{trail:Pt[]};
 
-const TUTORIAL_SEEN_KEY='hasSeenTutorial';
-
 function shouldSkipHomePosterEntrance(){
   if(typeof window==='undefined') return false;
   try{
@@ -65,10 +63,13 @@ function shouldSkipHomePosterEntrance(){
   }
 }
 
+// sessionStorage survives client-side navigation (e.g. visiting an island
+// and sailing back home) but is cleared the moment the tab/browser closes —
+// so the tutorial reappears on a fresh visit without nagging repeat sailors.
 function hasSeenTutorial(){
   if(typeof window==='undefined') return false;
   try{
-    return window.localStorage.getItem(TUTORIAL_SEEN_KEY)==='1';
+    return window.sessionStorage.getItem('hasSeenTutorial')==='1';
   }catch{
     return false;
   }
@@ -77,7 +78,7 @@ function hasSeenTutorial(){
 function markTutorialSeen(){
   if(typeof window==='undefined') return;
   try{
-    window.localStorage.setItem(TUTORIAL_SEEN_KEY,'1');
+    window.sessionStorage.setItem('hasSeenTutorial','1');
   }catch{
     // ignore (e.g. storage disabled)
   }
@@ -110,6 +111,7 @@ export default function Home(){
   const [skipPosterEntrance]=useState(initialSkipPosterEntrance);
   const [entering,setEntering]=useState(!initialSkipPosterEntrance);
   const skipNextSplashRef=useRef(initialSkipPosterEntrance);
+  const [isTouch,setIsTouch]=useState(false);
 
   useEffect(()=>{
     const params=new URLSearchParams(window.location.search);
@@ -123,6 +125,15 @@ export default function Home(){
       setEntering(false);
     }
   },[skipPosterEntrance]);
+
+  // Detect touch/coarse-pointer devices once on mount so we can show
+  // touch-appropriate instructions instead of keyboard hints.
+  useEffect(()=>{
+    if(typeof window==='undefined')return;
+    const coarse=typeof window.matchMedia==='function' && window.matchMedia('(pointer: coarse)').matches;
+    const touchCapable=coarse || 'ontouchstart' in window || (navigator.maxTouchPoints||0)>0;
+    setIsTouch(touchCapable);
+  },[]);
 
   // Cycle through subtitle phrases + camera-approach entrance
   useEffect(()=>{
@@ -687,6 +698,21 @@ export default function Home(){
         ctx.beginPath();ctx.moveTo(-2,-r*0.2);ctx.lineTo(0,-r*0.24);ctx.lineTo(2,-r*0.2);ctx.closePath();ctx.fillStyle='#f0c0a0';ctx.fill();
         ctx.beginPath();ctx.rect(-2,r*0.0,4,r*0.02);ctx.fillStyle='#e080a0';ctx.fill();
         ctx.restore();
+        // Quad trees + worn footpath — added campus greenery
+        const qSway=Math.sin(tick*0.018)*r*0.012;
+        ([[-0.62,0.30,1,0.95],[0.55,0.18,-1,0.85]] as [number,number,number,number][]).forEach(([tdx,tdy,tdir,tsc],ti)=>{
+          const tx=x+r*tdx,ty=y+r*tdy,sway=qSway*tdir*(0.6+ti*0.4);
+          ctx.beginPath();ctx.ellipse(tx,ty+r*0.07*tsc,r*0.1*tsc,r*0.035*tsc,0,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,0.16)';ctx.fill();
+          ctx.beginPath();ctx.ellipse(tx-r*0.16*tsc,ty+r*0.06*tsc,r*0.06*tsc,r*0.035*tsc,0,0,Math.PI*2);ctx.fillStyle='rgba(30,110,40,0.55)';ctx.fill();
+          ctx.beginPath();ctx.ellipse(tx+r*0.17*tsc,ty+r*0.07*tsc,r*0.055*tsc,r*0.032*tsc,0,0,Math.PI*2);ctx.fillStyle='rgba(30,110,40,0.5)';ctx.fill();
+          ctx.beginPath();ctx.moveTo(tx,ty+r*0.06*tsc);ctx.quadraticCurveTo(tx+sway*0.5,ty-r*0.1*tsc,tx+sway,ty-r*0.26*tsc);ctx.strokeStyle='#6a4422';ctx.lineWidth=r*0.03*tsc;ctx.lineCap='round';ctx.stroke();
+          ([[0,-0.32,0.135],[-0.075,-0.25,0.095],[0.08,-0.26,0.1]] as [number,number,number][]).forEach(([cdx,cdy,crad],ci)=>{
+            const cx3=tx+sway+r*cdx*tsc,cy3=ty+r*cdy*tsc;
+            ctx.beginPath();ctx.arc(cx3,cy3,r*crad*tsc,0,Math.PI*2);ctx.fillStyle=`rgba(${34+ci*9},${112+ci*13},${42+ci*7},0.88)`;ctx.fill();ctx.strokeStyle='rgba(0,0,0,0.08)';ctx.lineWidth=0.6;ctx.stroke();
+          });
+        });
+        ctx.save();ctx.strokeStyle='rgba(210,190,150,0.32)';ctx.lineWidth=r*0.045;ctx.lineCap='round';
+        ctx.beginPath();ctx.moveTo(x-r*0.34,y+r*0.06);ctx.quadraticCurveTo(x,y+r*0.18,x+r*0.32,y+r*0.05);ctx.stroke();ctx.restore();
       } else if(theme==='sunset'){
         ctx.beginPath();ctx.moveTo(x-r*0.045,y-r*0.04);ctx.lineTo(x-r*0.025,y-r*0.82);ctx.lineTo(x+r*0.025,y-r*0.82);ctx.lineTo(x+r*0.045,y-r*0.04);ctx.closePath();
         const twg=ctx.createLinearGradient(x,y-r*0.82,x,y-r*0.04);twg.addColorStop(0,'#b0b0b8');twg.addColorStop(1,'#808090');ctx.fillStyle=twg;ctx.fill();ctx.strokeStyle='#686870';ctx.lineWidth=1;ctx.stroke();
@@ -865,26 +891,41 @@ export default function Home(){
   }
 
   return(
-    <div style={{position:'relative',width:'100%',height:'100vh',overflow:'hidden',background:'#0b1d35',fontFamily:'Georgia,serif'}}>
-      <canvas ref={cvsRef} style={{display:'block',width:'100%',height:'100%'}}/>
+    <div className="kl-game-wrap" style={{position:'relative',width:'100%',height:'100vh',overflow:'hidden',background:'#0b1d35',fontFamily:'Georgia,serif',touchAction:'none',overscrollBehavior:'none'}}>
+      <style>{`
+        .kl-game-wrap{height:100vh;}
+        @supports (height:100dvh){
+          .kl-game-wrap{height:100dvh;}
+        }
+        .kl-tutorial-card{padding:40px 52px;}
+        .kl-tutorial-grid{grid-template-columns:1fr 1fr;}
+        @media (max-width: 480px){
+          .kl-tutorial-card{padding:28px 20px;}
+          .kl-tutorial-grid{grid-template-columns:1fr;}
+        }
+      `}</style>
+      <canvas ref={cvsRef} style={{display:'block',width:'100%',height:'100%',touchAction:'none'}}/>
       <div style={{position:'absolute',top:14,left:16,color:'#f5e6c0',pointerEvents:'none',zIndex:5}}>
         <div style={{fontSize:15,fontWeight:'bold',textShadow:'0 0 10px rgba(200,168,80,.5)'}}>Hey, I'm Kyle Lin</div>
-        <div style={{fontSize:10,color:'rgba(200,168,112,.5)',marginTop:3}}>WASD / ↑↓←→ to sail · E or click an island to visit</div>
+        <div style={{fontSize:10,color:'rgba(200,168,112,.5)',marginTop:3}}>{isTouch?'Use the on-screen arrows to sail · Tap an island to visit':'WASD / ↑↓←→ to sail · E or click an island to visit'}</div>
       </div>
       {showTutorial&&(
         <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',zIndex:20,background:'rgba(3,9,18,0.6)',backdropFilter:'blur(3px)'}}>
-          <div style={{background:'rgba(8,18,40,0.97)',border:'1px solid rgba(200,168,80,0.4)',borderRadius:16,padding:'40px 52px',textAlign:'center',fontFamily:'Georgia,serif',color:'#f5e6c0',maxWidth:420,boxShadow:'0 0 60px rgba(0,0,0,0.8)'}}>
+          <div className="kl-tutorial-card" style={{background:'rgba(8,18,40,0.97)',border:'1px solid rgba(200,168,80,0.4)',borderRadius:16,textAlign:'center',fontFamily:'Georgia,serif',color:'#f5e6c0',maxWidth:420,width:'min(420px,90vw)',boxShadow:'0 0 60px rgba(0,0,0,0.8)'}}>
             <div style={{fontSize:36,marginBottom:16}}>⚓</div>
             <h2 style={{fontSize:'1.3rem',fontWeight:'bold',letterSpacing:3,margin:'0 0 8px',color:'#f5e6c0'}}>Welcome Aboard</h2>
             <p style={{fontSize:12,color:'rgba(200,168,112,0.6)',letterSpacing:2,textTransform:'uppercase',marginBottom:28}}>Captain's Briefing</p>
 
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'12px 24px',marginBottom:28,textAlign:'left'}}>
-              {[
+            <div className="kl-tutorial-grid" style={{display:'grid',gap:'12px 24px',marginBottom:28,textAlign:'left'}}>
+              {(isTouch?[
+                {keys:'↑ ↓ ← →',desc:'Tap arrows to sail'},
+                {keys:'Tap',desc:'Tap an island to visit'},
+              ]:[
                 {keys:'W A S D',desc:'Sail the ship'},
                 {keys:'↑ ↓ ← →',desc:'Arrow keys work too'},
                 {keys:'E',desc:'Visit nearby island'},
                 {keys:'Click',desc:'Click island to visit'},
-              ].map(({keys,desc})=>(
+              ]).map(({keys,desc})=>(
                 <div key={keys} style={{display:'flex',alignItems:'center',gap:10}}>
                   <kbd style={{background:'rgba(200,160,50,.15)',border:'1px solid rgba(200,160,80,0.4)',borderRadius:5,padding:'3px 9px',fontSize:11,fontFamily:'Georgia,serif',color:'#c8a870',whiteSpace:'nowrap'}}>{keys}</kbd>
                   <span style={{fontSize:12,color:'rgba(200,168,112,0.7)'}}>{desc}</span>
@@ -907,14 +948,28 @@ export default function Home(){
         </div>
       )}
       {near&&(<div style={{position:'absolute',bottom:24,left:'50%',transform:'translateX(-50%)',background:'rgba(8,18,35,.93)',border:`1px solid ${THEMES[ISLE_DATA.find(i=>i.id===near)!.theme].accent}`,borderRadius:9,padding:'10px 26px',color:'#f5e6c0',fontSize:13,whiteSpace:'nowrap',pointerEvents:'none',zIndex:5}}>
-        Press{' '}<kbd style={{background:'rgba(200,160,50,.2)',border:'1px solid #c8a870',borderRadius:3,padding:'1px 7px',fontWeight:'bold',fontFamily:'Georgia,serif'}}>E</kbd>{' '}or click to visit {ISLE_DATA.find(i=>i.id===near)?.name}
+        {isTouch ? (
+          <>Tap to visit {ISLE_DATA.find(i=>i.id===near)?.name}</>
+        ) : (
+          <>Press{' '}<kbd style={{background:'rgba(200,160,50,.2)',border:'1px solid #c8a870',borderRadius:3,padding:'1px 7px',fontWeight:'bold',fontFamily:'Georgia,serif'}}>E</kbd>{' '}or click to visit {ISLE_DATA.find(i=>i.id===near)?.name}</>
+        )}
       </div>)}
-      <div style={{position:'absolute',bottom:'18px',right:'18px',display:'grid',gridTemplateColumns:'38px 38px 38px',gridTemplateRows:'38px 38px 38px',gap:4,zIndex:5}}>
+      <div style={{position:'absolute',bottom:'calc(18px + env(safe-area-inset-bottom, 0px))',right:'calc(18px + env(safe-area-inset-right, 0px))',display:'grid',gridTemplateColumns:isTouch?'48px 48px 48px':'38px 38px 38px',gridTemplateRows:isTouch?'48px 48px 48px':'38px 38px 38px',gap:isTouch?6:4,zIndex:5}}>
         {(['','dU','','dL','dD','dR'] as const).map((id,i)=>{
           if(!id)return <div key={i}/>;
           const label=id==='dU'?'↑':id==='dD'?'↓':id==='dL'?'←':'→';
           const key=id==='dU'?'ArrowUp':id==='dD'?'ArrowDown':id==='dL'?'ArrowLeft':'ArrowRight';
-          return(<div key={id} onPointerDown={e=>{e.preventDefault();keysRef.current[key]=true;}} onPointerUp={()=>keysRef.current[key]=false} onPointerLeave={()=>keysRef.current[key]=false} style={{background:'rgba(200,160,70,.15)',border:'1px solid rgba(200,160,70,.4)',borderRadius:6,color:'#c8a870',fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',userSelect:'none',touchAction:'none'}}>{label}</div>);
+          return(
+            <div
+              key={id}
+              onPointerDown={e=>{e.preventDefault();keysRef.current[key]=true;}}
+              onPointerUp={()=>keysRef.current[key]=false}
+              onPointerLeave={()=>keysRef.current[key]=false}
+              onPointerCancel={()=>keysRef.current[key]=false}
+              onContextMenu={e=>e.preventDefault()}
+              style={{background:'rgba(200,160,70,.18)',border:'1px solid rgba(200,160,70,.45)',borderRadius:8,color:'#c8a870',fontSize:isTouch?20:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',userSelect:'none',WebkitUserSelect:'none',WebkitTouchCallout:'none',touchAction:'none'}}
+            >{label}</div>
+          );
         })}
       </div>
     </div>
