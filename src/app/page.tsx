@@ -334,8 +334,8 @@ export default function Home(){
       });
     }
 
-    function drawWalker(wx:number,wy:number,facing:number,tick:number,shirt:string,pants:string){
-      ctx.save();ctx.translate(wx,wy);if(facing<0)ctx.scale(-1,1);
+    function drawWalker(wx:number,wy:number,facing:number,tick:number,shirt:string,pants:string,scale:number=1){
+      ctx.save();ctx.translate(wx,wy);ctx.scale(facing<0?-scale:scale,scale);
       const legSwing=Math.sin(tick*0.15)*0.35;
       ctx.beginPath();ctx.ellipse(0,14,7,3,0,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,0.15)';ctx.fill();
       ctx.strokeStyle=pants;ctx.lineWidth=3;ctx.lineCap='round';
@@ -355,13 +355,13 @@ export default function Home(){
       ctx.restore();
     }
 
-    function drawCat(isle:Isle,tick:number){
+    function drawCat(isle:Isle,tick:number,scale:number=1){
       const angle=CAT.angle+tick*CAT.speed;
       const cx2=isle.x+Math.cos(angle)*isle.r*0.38;
       const cy2=isle.y+Math.sin(angle)*isle.r*0.24;
       const facing=Math.cos(angle+0.01)>Math.cos(angle)?1:-1;
       const sitting=Math.sin(tick*0.04)>0.6;
-      ctx.save();ctx.translate(cx2,cy2);if(facing<0)ctx.scale(-1,1);
+      ctx.save();ctx.translate(cx2,cy2);ctx.scale(facing<0?-scale:scale,scale);
       ctx.beginPath();ctx.ellipse(0,sitting?6:8,8,3,0,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,0.15)';ctx.fill();
       if(sitting){
         ctx.beginPath();ctx.ellipse(0,2,7,8,0,0,Math.PI*2);ctx.fillStyle='#888';ctx.fill();
@@ -455,7 +455,7 @@ export default function Home(){
       ctx.restore();
     }
 
-    function drawIsle(isle:Isle){
+    function drawIsle(isle:Isle,scale:number=1){
       const{x,y,r,name,lbl,theme}=isle;
       const t=THEMES[theme];const tick=tickRef.current;const tide=getTide();
 
@@ -487,10 +487,10 @@ export default function Home(){
           const wx2=x+Math.cos(angle)*r*0.76;
           const wy2=y+Math.sin(angle)*r*0.47;
           const facing=w.side*Math.cos(angle)>0?1:-1;
-          drawWalker(wx2,wy2,facing,tick+wi*20,w.shirt,w.pants);
+          drawWalker(wx2,wy2,facing,tick+wi*20,w.shirt,w.pants,scale);
         });
       }
-      if(isle.id==='home') drawCat(isle,tick);
+      if(isle.id==='home') drawCat(isle,tick,scale);
 
       if(theme==='emerald'){
         ctx.beginPath();ctx.ellipse(x,y+r*0.08,r*0.62,r*0.38,0,0,Math.PI*2);ctx.fillStyle='rgba(50,160,50,0.35)';ctx.fill();
@@ -867,7 +867,7 @@ export default function Home(){
       drawOcean(W,H);
       drawTrail();
       drawWrecks(W,H);
-      islesRef.current.forEach(isle=>drawIsle(isle));
+      islesRef.current.forEach(isle=>drawIsle(isle,isleScale));
       drawWake();
       whalesRef.current.forEach(wh=>drawWhale(wh,tickRef.current));
       turtlesRef.current.forEach(tu=>drawTurtle(tu,tickRef.current));
