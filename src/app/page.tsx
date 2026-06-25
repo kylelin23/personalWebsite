@@ -45,6 +45,19 @@ const CAT={angle:1.2,speed:0.004};
 
 const FOAM=Array.from({length:60},(_,i)=>({pX:((i*37*127+113)%9973)/9973,pY:((i*53*89+227)%9871)/9871,ph:i*2.17,sz:1.5+(i%3)*0.7}));
 const ACCEL=0.2,FRIC=0.87,MSPD=4.0,IDIST=185,TRAIL_LEN=80;
+
+// Island radii (and pX/pY spacing) above are tuned for a desktop-sized
+// canvas. On narrower/shorter viewports (phones) we shrink every island
+// by the same factor so they keep their proportions instead of crowding
+// or overlapping each other. Everything islands draw (buildings, walkers,
+// tidepools, avoidance radii) is already expressed relative to isle.r, so
+// scaling r here is enough to scale the whole island consistently.
+const ISLE_REF_W=1440,ISLE_REF_H=900;
+const ISLE_MIN_SCALE=0.2,ISLE_MAX_SCALE=1;
+function getIsleScale(W:number,H:number){
+  const s=Math.min(W/ISLE_REF_W,H/ISLE_REF_H);
+  return Math.max(ISLE_MIN_SCALE,Math.min(ISLE_MAX_SCALE,s));
+}
 type Isle=typeof ISLE_DATA[0]&{x:number;y:number};
 
 type Pt={x:number;y:number};
@@ -204,11 +217,12 @@ export default function Home(){
 
     function onClick(e:MouseEvent){
       const rect=canvas.getBoundingClientRect(),cx=e.clientX-rect.left,cy=e.clientY-rect.top;
-      for(const isle of islesRef.current){if(Math.hypot(cx-isle.x,cy-isle.y)<isle.r*0.85){visitIsland(isle.id);return;}}
+      // Floor the hit radius so tiny mobile-scaled islands stay easy to tap.
+      for(const isle of islesRef.current){const hitR=Math.max(isle.r*0.85,30);if(Math.hypot(cx-isle.x,cy-isle.y)<hitR){visitIsland(isle.id);return;}}
     }
     function onMove(e:MouseEvent){
       const rect=canvas.getBoundingClientRect(),mx=e.clientX-rect.left,my=e.clientY-rect.top;
-      canvas.style.cursor=islesRef.current.some(i=>Math.hypot(mx-i.x,my-i.y)<i.r*0.85)?'pointer':'default';
+      canvas.style.cursor=islesRef.current.some(i=>Math.hypot(mx-i.x,my-i.y)<Math.max(i.r*0.85,30))?'pointer':'default';
     }
     canvas.addEventListener('click',onClick);canvas.addEventListener('mousemove',onMove);
 
@@ -810,7 +824,8 @@ export default function Home(){
     function loop(){
       tickRef.current++;
       const W=canvas.width,H=canvas.height;
-      islesRef.current=ISLE_DATA.map(d=>({...d,x:d.pX*W,y:d.pY*H}));
+      const isleScale=getIsleScale(W,H);
+      islesRef.current=ISLE_DATA.map(d=>({...d,x:d.pX*W,y:d.pY*H,r:d.r*isleScale}));
       const s=shipRef.current,k=keysRef.current;
       let ax=0,ay=0;
       if(k['ArrowUp']   ||k['w']||k['W'])ay-=ACCEL;
@@ -841,7 +856,8 @@ export default function Home(){
       trailRef.current.push({x:s.x,y:s.y});
       if(trailRef.current.length>TRAIL_LEN)trailRef.current.shift();
       nearRef.current=null;
-      islesRef.current.forEach(i=>{if(Math.hypot(s.x-i.x,s.y-i.y)<IDIST)nearRef.current=i;});
+      const idist=IDIST*isleScale;
+      islesRef.current.forEach(i=>{if(Math.hypot(s.x-i.x,s.y-i.y)<idist)nearRef.current=i;});
       setNear((nearRef.current as Isle|null)?.id||null);
 
       whalesRef.current.forEach(wh=>steer(wh,1.1,islesRef.current,W,H));

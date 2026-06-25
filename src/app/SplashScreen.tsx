@@ -226,6 +226,22 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
       @media (max-width: 760px){
         .splash-deco{display:none}
       }
+      .kl-poster{width:min(620px,82vw);min-height:min(720px,78vh);padding:56px 48px;}
+      .kl-poster-title{font-size:3.2rem;letter-spacing:4px;}
+      .kl-poster-anchor{font-size:64px;}
+      .kl-poster-btn{font-size:1rem;letter-spacing:6px;padding:16px 60px;}
+      @media (max-width: 600px){
+        .kl-poster{width:min(440px,92vw);min-height:min(560px,72vh);padding:34px 22px;}
+        .kl-poster-title{font-size:2rem;letter-spacing:1.5px;}
+        .kl-poster-anchor{font-size:46px;}
+        .kl-poster-btn{font-size:0.82rem;letter-spacing:3px;padding:13px 34px;}
+      }
+      @media (max-width: 380px){
+        .kl-poster{padding:26px 16px;min-height:min(520px,70vh);}
+        .kl-poster-title{font-size:1.65rem;letter-spacing:1px;}
+        .kl-poster-anchor{font-size:38px;}
+        .kl-poster-btn{font-size:0.74rem;letter-spacing:2px;padding:11px 26px;}
+      }
     `}</style>
 
     <div style={{
@@ -281,7 +297,7 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
         {x:18,y:232,r:-19,title:'MONGO DB',sub:'Data layer',desc:'Storing, organizing, and serving data for full-stack ideas.'},
         {x:148,y:198,r:14,title:'UX',sub:'Guide the user',desc:'Clear controls, readable states, and interactions that make sense.'},
       ].map((p,i)=>(
-        <div key={i} style={{
+        <div key={i} className="splash-deco" style={{
           position:'absolute',
           left:`calc(50% + ${p.x}vw)`,
           top:`calc(50% + ${p.y}vh)`,
@@ -332,14 +348,11 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
       ))}
 
       {/* Main Poster card */}
-      <div style={{
+      <div className="kl-poster" style={{
         position:'absolute',
         left:'50%',
         top:'50%',
         transform:'translate(-50%,-50%) rotate(-1deg)',
-        width:'min(620px,82vw)',
-        minHeight:'min(720px,78vh)',
-        padding:'56px 48px',
         zIndex:5,
         textAlign:'center',
         display:'flex',
@@ -383,7 +396,7 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
         ))}
 
         <div style={{position:'relative',display:'inline-block',marginBottom:20,zIndex:2}}>
-          <div style={{fontSize:64,animation:'anchorBob 3.5s ease-in-out infinite',display:'inline-block',filter:'drop-shadow(0 0 12px rgba(60,35,10,.35))'}}>⚓</div>
+          <div className="kl-poster-anchor" style={{animation:'anchorBob 3.5s ease-in-out infinite',display:'inline-block',filter:'drop-shadow(0 0 12px rgba(60,35,10,.35))'}}>⚓</div>
           {Array.from({length:8}).map((_,i)=>{
             const angle=(i/8)*Math.PI*2;
             const dx=Math.cos(angle)*40+(i%2===0?10:-10);
@@ -407,13 +420,11 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
           })}
         </div>
 
-        <h1 style={{
+        <h1 className="kl-poster-title" style={{
           position:'relative',
           zIndex:2,
-          fontSize:'3.2rem',
           fontWeight:'bold',
           margin:'0 0 4px',
-          letterSpacing:4,
           animation:'glow 3s ease-in-out infinite',
           color:'#1d160f',
           minHeight:'1.2em',
@@ -443,6 +454,7 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
 
         <div style={{position:'relative',zIndex:2,animation:'staggerIn 0.7s 1.6s ease forwards',opacity:0,pointerEvents:entering?'none':'auto'}}>
           <button
+            className="kl-poster-btn"
             onClick={onExplore}
             disabled={transitioning}
             style={{
@@ -451,9 +463,6 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
               borderRadius:2,
               color:'#1d160f',
               fontFamily:'Georgia,serif',
-              fontSize:'1rem',
-              letterSpacing:6,
-              padding:'16px 60px',
               cursor:'pointer',
               textTransform:'uppercase',
               transition:'all 0.25s ease',
@@ -469,14 +478,14 @@ export default function SplashScreen({ entering, transitioning, subtitleIndex, o
               const b=e.currentTarget;
               b.style.background='transparent';
               b.style.boxShadow='';
-              b.style.letterSpacing='6px';
+              b.style.letterSpacing='';
             }}
           >
             Explore
           </button>
         </div>
 
-       
+
       </div>
 
       {/* The 5 named logos sit close to the poster — nothing else does */}
