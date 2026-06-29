@@ -1,0 +1,631 @@
+.splashRoot {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #120d09;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Georgia, serif;
+  overflow: hidden;
+  perspective: 1200px;
+}
+
+.bgGradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 38%,
+    #4b3522 0%,
+    #2b1d12 48%,
+    #100b07 100%
+  );
+}
+
+.bgGrain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 4px
+    );
+  pointer-events: none;
+}
+
+.horizonShadow {
+  position: absolute;
+  bottom: 16%;
+  left: 12%;
+  right: 12%;
+  height: 18px;
+  background: #2a180d;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  opacity: 0.75;
+}
+
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform, filter;
+}
+
+.sceneEntering {
+  animation: posterEnter 0.75s cubic-bezier(0.6, 0.04, 0.98, 0.335) both;
+}
+
+.posterDeco {
+  position: absolute;
+  width: min(520px, 64vw);
+  min-height: min(610px, 68vh);
+  padding: 72px 40px 46px;
+  background: linear-gradient(135deg, #ead7ad, #c6a06a);
+  border: 9px solid #3a2414;
+  box-shadow:
+    0 38px 85px rgba(0, 0, 0, 0.65),
+    inset 0 0 52px rgba(80, 40, 10, 0.22);
+  color: #1d160f;
+  text-align: center;
+  z-index: 3;
+  opacity: 0.74;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.posterDecoTexture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    rgba(0, 0, 0, 0.12) 1px,
+    transparent 3px
+  );
+}
+
+.cornerDot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #171717;
+}
+
+.cornerDotTL {
+  top: 14px;
+  left: 14px;
+}
+.cornerDotTR {
+  top: 14px;
+  right: 14px;
+}
+.cornerDotBL {
+  bottom: 14px;
+  left: 14px;
+}
+.cornerDotBR {
+  bottom: 14px;
+  right: 14px;
+}
+
+.posterDecoTitle {
+  position: relative;
+  z-index: 2;
+  font-size: 2rem;
+  margin: 0 0 12px;
+  letter-spacing: 4px;
+  color: #1d160f;
+}
+
+.posterDecoSub {
+  position: relative;
+  z-index: 2;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.68;
+  margin-bottom: 28px;
+}
+
+.posterDecoDesc {
+  position: relative;
+  z-index: 2;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0 auto;
+  color: rgba(29, 22, 15, 0.78);
+}
+
+.wideDeco {
+  position: absolute;
+  z-index: 4;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+  pointer-events: none;
+}
+
+.posterCard {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-1deg);
+  z-index: 5;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ead7ad, #c6a06a);
+  border: 10px solid #3a2414;
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 0.75),
+    0 10px 22px rgba(0, 0, 0, 0.55),
+    inset 0 0 55px rgba(80, 40, 10, 0.22);
+  color: #1d160f;
+  overflow: hidden;
+  width: min(620px, 82vw);
+  min-height: min(720px, 78vh);
+  padding: 56px 48px;
+}
+
+.posterCardZooming {
+  animation: posterZoom 0.3s linear forwards;
+}
+
+.posterCardTexture {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    rgba(0, 0, 0, 0.12) 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
+
+.posterPeg {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #777, #171717);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+  z-index: 8;
+}
+
+.posterPegTL {
+  top: 14px;
+  left: 14px;
+}
+.posterPegTR {
+  top: 14px;
+  right: 14px;
+}
+.posterPegBL {
+  bottom: 14px;
+  left: 14px;
+}
+.posterPegBR {
+  bottom: 14px;
+  right: 14px;
+}
+
+.anchorWrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+  z-index: 2;
+}
+
+.posterAnchor {
+  animation: anchorBob 3.5s ease-in-out infinite;
+  display: inline-block;
+  filter: drop-shadow(0 0 12px rgba(60, 35, 10, 0.35));
+  font-size: 64px;
+}
+
+.sparkle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(60, 35, 10, 0.45);
+  pointer-events: none;
+}
+
+.posterTitle {
+  position: relative;
+  z-index: 2;
+  font-weight: bold;
+  margin: 0 0 4px;
+  animation: glow 3s ease-in-out infinite;
+  color: #1d160f;
+  min-height: 1.2em;
+  font-size: 3.2rem;
+  letter-spacing: 4px;
+}
+
+.posterDivider {
+  position: relative;
+  z-index: 2;
+  animation: staggerIn 0.7s 1.3s ease forwards;
+  opacity: 0;
+  margin-bottom: 36px;
+  margin-top: 12px;
+}
+
+.posterDividerInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.posterDividerLineLeft {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(40, 24, 12, 0.55));
+}
+
+.posterDividerLineRight {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to left, transparent, rgba(40, 24, 12, 0.55));
+}
+
+.posterDividerStar {
+  font-size: 14px;
+  color: rgba(40, 24, 12, 0.65);
+}
+
+.subtitleWrap {
+  position: relative;
+  z-index: 2;
+  animation: staggerIn 0.7s 1.45s ease forwards;
+  opacity: 0;
+  margin-bottom: 44px;
+  height: 20px;
+}
+
+.subtitleText {
+  font-size: 13px;
+  color: rgba(35, 20, 10, 0.82);
+  letter-spacing: 2px;
+  margin: 0;
+  animation: subtitleFade 3.2s ease forwards;
+}
+
+.btnWrap {
+  position: relative;
+  z-index: 2;
+  animation: staggerIn 0.7s 1.6s ease forwards;
+  opacity: 0;
+}
+
+.btnWrapLocked {
+  pointer-events: none;
+}
+
+.posterBtn {
+  background: transparent;
+  border: 2px solid #3a2414;
+  border-radius: 2px;
+  color: #1d160f;
+  font-family: Georgia, serif;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+  animation: btnGlow 3s ease-in-out infinite;
+  font-size: 1rem;
+  letter-spacing: 6px;
+  padding: 16px 60px;
+}
+
+.posterBtn:hover {
+  background: rgba(60, 35, 10, 0.12);
+  box-shadow: 0 0 30px rgba(60, 35, 10, 0.35);
+  letter-spacing: 8px;
+}
+
+.transitionOverlay {
+  position: absolute;
+  inset: 0;
+  background: #0b1d35;
+  z-index: 10;
+  animation: vignetteFlash 0.3s linear forwards;
+  pointer-events: none;
+}
+
+.namedDeco {
+  position: absolute;
+  z-index: 6;
+  opacity: 0.85;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+  pointer-events: none;
+}
+
+.namedDecoCalpoly {
+  left: calc(50% - 34vw);
+  top: calc(50% - 26vh);
+  transform: translate(-50%, -50%) rotate(-8deg) scale(1.05);
+}
+
+.namedDecoReact {
+  left: calc(50% + 29vw);
+  top: calc(50% - 34vh);
+  transform: translate(-50%, -50%) rotate(10deg) scale(0.9);
+}
+
+.namedDecoAws {
+  left: calc(50% + 38vw);
+  top: calc(50% - 6vh);
+  transform: translate(-50%, -50%) rotate(-12deg) scale(1);
+}
+
+.namedDecoPython {
+  left: calc(50% + 36vw);
+  top: calc(50% + 35vh);
+  transform: translate(-50%, -50%) rotate(16deg) scale(0.95);
+}
+
+.namedDecoGithub {
+  left: calc(50% - 35vw);
+  top: calc(50% + 20vh);
+  transform: translate(-50%, -50%) rotate(-8deg) scale(1);
+}
+
+.compassIcon {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ead7ad, #c6a06a);
+  border: 3px solid #3a2414;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compassNeedle {
+  position: absolute;
+  width: 2px;
+  height: 20px;
+  top: 6px;
+  left: calc(50% - 1px);
+  transform-origin: 50% 75%;
+  border-radius: 1px;
+  background: linear-gradient(to bottom, #a01818 50%, #3a2414 50%);
+}
+
+.compassNeedleSpin {
+  animation: compassDecoSpin 9s linear infinite;
+}
+
+.compassLabel {
+  position: absolute;
+  top: 3px;
+  font-size: 7px;
+  font-weight: bold;
+  color: #a01818;
+  letter-spacing: 1px;
+}
+
+.shapeFrame {
+  position: relative;
+}
+
+.shapeBorder {
+  position: absolute;
+  inset: 0;
+}
+
+.shapeInner {
+  position: absolute;
+  inset: 3px;
+  background: radial-gradient(circle at 35% 30%, #ead7ad, #c6a06a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.patchImg {
+  object-fit: contain;
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    text-shadow: 0 0 18px rgba(60, 35, 10, 0.25);
+  }
+  50% {
+    text-shadow: 0 0 36px rgba(80, 45, 15, 0.55);
+  }
+}
+
+@keyframes btnGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(60, 35, 10, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(60, 35, 10, 0.35);
+  }
+}
+
+@keyframes staggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes anchorBob {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.04);
+  }
+}
+
+@keyframes subtitleFade {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes sparkleDrift {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.4);
+  }
+  15% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1);
+  }
+}
+
+@keyframes shipDrift {
+  0% {
+    transform: translateX(-15vw);
+  }
+  100% {
+    transform: translateX(115vw);
+  }
+}
+
+@keyframes shipDriftRev {
+  0% {
+    transform: translateX(115vw) scaleX(-1);
+  }
+  100% {
+    transform: translateX(-15vw) scaleX(-1);
+  }
+}
+
+@keyframes posterEnter {
+  0% {
+    transform: translate3d(0, 0, -2600px) scale(0.55);
+    filter: blur(2.5px) brightness(0.65);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0) brightness(1);
+  }
+}
+
+@keyframes posterZoom {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes vignetteFlash {
+  0% {
+    opacity: 0;
+  }
+  55% {
+    opacity: 0.28;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes compassDecoSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 760px) {
+  .posterDeco,
+  .wideDeco,
+  .namedDeco {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .posterCard {
+    width: min(440px, 92vw);
+    min-height: min(560px, 72vh);
+    padding: 34px 22px;
+  }
+  .posterTitle {
+    font-size: 2rem;
+    letter-spacing: 1.5px;
+  }
+  .posterAnchor {
+    font-size: 46px;
+  }
+  .posterBtn {
+    font-size: 0.82rem;
+    letter-spacing: 3px;
+    padding: 13px 34px;
+  }
+}
+
+@media (max-width: 380px) {
+  .posterCard {
+    padding: 26px 16px;
+    min-height: min(520px, 70vh);
+  }
+  .posterTitle {
+    font-size: 1.65rem;
+    letter-spacing: 1px;
+  }
+  .posterAnchor {
+    font-size: 38px;
+  }
+  .posterBtn {
+    font-size: 0.74rem;
+    letter-spacing: 2px;
+    padding: 11px 26px;
+  }
+}

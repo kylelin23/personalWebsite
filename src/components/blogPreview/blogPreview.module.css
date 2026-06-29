@@ -1,79 +1,187 @@
-.blog {
-    background-color: #f5f7fa;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+.wrapper {
+  font-family: Georgia, serif;
+  color: #f5e6c0;
 }
 
-.schoolContainer {
-    border-radius: 15px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: gray;
-    padding: 20px;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 50vw;
+.date {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(200, 160, 80, 0.55);
+  text-transform: uppercase;
+  margin: 0 0 24px;
 }
 
-.blogText {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    line-height: 1.5;
-    color: black;
+.imageWrap {
+  margin-bottom: 32px;
+  text-align: center;
 }
 
-.blogImage {
-    border-radius: 5px;
-    border-style: solid;
-    border-color: black;
-    border-width: 5;
+.image {
+  width: 220px;
+  border-radius: 10px;
+  border: 1px solid rgba(200, 160, 70, 0.15);
+  display: inline-block;
 }
 
-.blogTitle {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    line-height: 1.5;
-    font-size: 30;
-    color: black;
+.description {
+  margin-bottom: 40px;
 }
 
-.commentTitle {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    line-height: 1.5;
-    font-size: 25;
-    color: black;
+.paragraph {
+  font-size: 15px;
+  line-height: 2;
+  color: rgba(220, 200, 160, 0.85);
+  margin: 0 0 20px;
+  letter-spacing: 0.3px;
 }
 
-.contactText {
-    color: black;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.paragraphSpacer {
+  height: 6px;
 }
 
-.input {
-    padding: 10px;
-    color: black;
-    border-width: 2px;
-    border-style: solid;
-    border-color: gray;
-    border-radius: 5px;
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 36px;
 }
 
-.submit {
-    border-radius: 5px;
-    background-color: lightskyblue;
-    padding: 10px;
-    color: white;
-    border-width: 0px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: rgba(200, 160, 70, 0.12);
 }
 
-.errorText {
-    color: red;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.dividerStar {
+  font-size: 12px;
+  color: rgba(200, 160, 80, 0.3);
+}
+
+.commentsHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.commentsTitle {
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(200, 160, 80, 0.65);
+  margin: 0;
+}
+
+.commentsCount {
+  font-size: 11px;
+  color: rgba(200, 160, 80, 0.35);
+  background: rgba(200, 160, 70, 0.08);
+  border: 1px solid rgba(200, 160, 70, 0.15);
+  border-radius: 12px;
+  padding: 1px 10px;
+}
+
+.formCard {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(200, 160, 70, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.formHint {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(200, 160, 80, 0.45);
+  text-transform: uppercase;
+  margin: 0 0 18px;
+}
+
+.nameFieldWrap {
+  margin-bottom: 12px;
+}
+
+.commentFieldWrap {
+  margin-bottom: 14px;
+}
+
+.blogLabel {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  color: rgba(200, 160, 80, 0.55);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.blogInput {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(200, 160, 70, 0.22);
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: #f5e6c0;
+  font-family: Georgia, serif;
+  font-size: 13px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.blogInput::placeholder {
+  color: rgba(200, 168, 112, 0.3);
+}
+
+.blogInput:focus {
+  border-color: rgba(200, 160, 70, 0.6);
+  box-shadow: 0 0 14px rgba(200, 160, 70, 0.1);
+}
+
+.errorBox {
+  background: rgba(255, 80, 80, 0.07);
+  border: 1px solid rgba(255, 80, 80, 0.18);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #ff9090;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.successBox {
+  background: rgba(80, 200, 80, 0.07);
+  border: 1px solid rgba(80, 200, 80, 0.18);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #80e890;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.blogSubmit {
+  width: 100%;
+  background: transparent;
+  border: 1.5px solid #c8a870;
+  border-radius: 4px;
+  color: #f5e6c0;
+  font-family: Georgia, serif;
+  font-size: 12px;
+  letter-spacing: 4px;
+  padding: 13px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.blogSubmit:hover:not(:disabled) {
+  background: rgba(200, 160, 70, 0.12);
+  box-shadow: 0 0 20px rgba(200, 160, 70, 0.2);
+}
+
+.blogSubmit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }

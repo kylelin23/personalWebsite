@@ -1,35 +1,50 @@
-.userText {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: black;
-    font-size: 1.25em;
+.emptyState {
+  text-align: center;
+  padding: 24px 0;
+  color: rgba(200, 168, 112, 0.3);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-.commentText {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    line-height: 1.5;
-    color: black;
-    font-size: 1em;
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
 }
 
-.dateText {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: black;
-    font-size: 1em;
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(200, 160, 70, 0.12);
+  border-radius: 10px;
+  padding: 14px 18px;
 }
 
-.commentContainer {
-    display: flex;
-    flex-direction: column;
-    border-color: black;
-    border-radius: 15;
-    border-width: 2px;
-    padding: 10px;
-    width: 40vw;
-
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
 
-.comments {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.user {
+  font-weight: bold;
+  font-size: 13px;
+  color: #f5e6c0;
+  letter-spacing: 1px;
+}
+
+.time {
+  font-size: 10px;
+  color: rgba(200, 160, 80, 0.4);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.text {
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(200, 168, 112, 0.75);
+  margin: 0;
 }

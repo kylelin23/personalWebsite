@@ -1,4 +1,3 @@
-// db.ts
 import mongoose from "mongoose";
 
 const url: string = process.env.MONGO_URI as string;
@@ -7,7 +6,6 @@ console.log("MONGODB_URI in db.ts:", url);
 if (!url) {
   throw new Error("MONGODB_URI is missing. Check your env and imports.");
 }
-
 
 let connection: typeof mongoose;
 

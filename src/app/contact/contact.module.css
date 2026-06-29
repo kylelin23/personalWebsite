@@ -1,66 +1,172 @@
-.gradientContainer {
-    background: url('../../../public/assets/subtle-prism.svg');
-    background-size: 100% auto;
-    height: calc(100vh - 80px);
-    display: flex;
-    justify-content: center;
-    padding-top: 15vh;
-    background-position: center;
+.page {
+  min-height: 100vh;
+  background: #050c18;
+  font-family: Georgia, serif;
+  color: #f5e6c0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
 }
 
-.pageTitle {
-    font-size: 100px;
-    color: white;
-    font-weight: bold;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+.topBackLinkWrapper {
+  position: fixed;
+  top: 20px;
+  left: 24px;
+  z-index: 10;
 }
 
-.contact {
-    background-color: #f5f7fa;
-    display: flex;
-    justify-content: center;
-    padding-top: 50px;
-    padding-bottom: 50px;
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 48px,
+    rgba(80, 150, 240, 0.5) 48px,
+    rgba(80, 150, 240, 0.5) 50px
+  );
+  pointer-events: none;
 }
 
-.contactText {
-    color: black;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.ambientDot {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(200, 168, 100, 0.3);
+  animation-name: pulse2;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  pointer-events: none;
 }
 
-.input {
-    padding: 10px;
-    color: black;
-    border-width: 2px;
-    border-style: solid;
-    border-color: gray;
-    border-radius: 5px;
+.content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 450px;
+  animation: fadeUp 0.7s ease forwards;
 }
 
-.submit {
-    border-radius: 5px;
-    background-color: lightskyblue;
-    padding: 10px;
-    color: white;
-    border-width: 0px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.header {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-.schoolContainer {
-    border-radius: 15px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: gray;
-    padding: 20px;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 50vw;
+.anchor {
+  font-size: 40px;
+  margin-bottom: 12px;
 }
 
-.errorText {
-    color: red;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 0 8px;
+  letter-spacing: 2px;
+  animation: glow 3s ease-in-out infinite;
+}
+
+.subtitle {
+  color: rgba(200, 160, 80, 0.5);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(200, 160, 70, 0.15);
+  border-radius: 16px;
+  padding: 32px;
+  backdrop-filter: blur(12px);
+}
+
+.socialCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(200, 160, 70, 0.25);
+  border-radius: 8px;
+  padding: 14px 20px;
+  color: #f5e6c0;
+  text-decoration: none;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+}
+
+.socialCard:last-child {
+  margin-bottom: 0;
+}
+
+.socialCard:hover {
+  background: rgba(200, 160, 70, 0.12);
+  border-color: rgba(200, 160, 70, 0.6);
+  box-shadow: 0 0 16px rgba(200, 160, 70, 0.12);
+}
+
+.socialIcon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.backLink {
+  color: rgba(200, 160, 80, 0.6);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: #c8a870;
+}
+
+@keyframes pulse2 {
+  0% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    text-shadow: 0 0 20px rgba(200, 160, 80, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 40px rgba(200, 160, 80, 0.6);
+  }
 }
