@@ -54,8 +54,9 @@ export default function Resume() {
               </p>
               <p className={styles.schoolDetail}>
                 <strong>Coursework: </strong>Data Structures and Algorithms,
-                Databases, Full-Stack Development, Artificial Intelligence, Data
-                Science, Object-Oriented Programming, Programming Languages
+                Databases, Full-Stack Development, Artificial Intelligence,
+                Object-Oriented Programming, Programming Languages, Computer
+                Networks, Computer Security
               </p>
             </div>
           </div>
@@ -108,16 +109,16 @@ export default function Resume() {
                 </div>
                 <ul className={styles.entryBullets}>
                   <li>
-                    - Developed a full stack website for a 400-member food co-op
-                    using Node.js, React, and MongoDB in a team of 12
-                  </li>
-                  <li>
-                    - Participated in Agile development, including code reviews
-                    and sprint planning
+                    - Developed a full-stack website for a 400-member food co-op
+                    using Next.js, React, and MongoDB.
                   </li>
                   <li>
                     - Implemented CRUD operations and RESTful APIs to support
-                    authentication, real-time messaging, and event scheduling
+                    authentication, messaging, and event scheduling.
+                  </li>
+                  <li>
+                    - Participated in Agile development in a team of 12,
+                    including code reviews and sprint planning.
                   </li>
                 </ul>
                 <a
@@ -178,17 +179,18 @@ export default function Resume() {
                   <li>
                     - Led a team of 4 engineers as a project lead to develop a
                     website used by real educators, consolidating resources from
-                    6+ external sources into a single searchable website
+                    6+ external sources into a single searchable website.
                   </li>
                   <li>
-                    - Built dynamic features such as search and filtering in
-                    React, greatly reducing the time required for educators to
-                    locate relevant educational resources
+                    - Built React search and filtering features, greatly
+                    reducing the time educators spent finding relevant
+                    resources.
                   </li>
                   <li>
-                    - Planned weekly sprints and code reviews, mentored a junior
-                    developer in React, and improved team development workflow
-                    and collaboration by leading weekly team meetings
+                    - Served as a force multiplier by planning weekly sprints
+                    and team meetings, leading code reviews, and mentoring a
+                    junior developer to improve team productivity and
+                    collaboration.
                   </li>
                 </ul>
                 <a
@@ -207,6 +209,66 @@ export default function Resume() {
         <div className={styles.section}>
           <p className={styles.sectionTitle}>Projects</p>
           <div className={styles.cardList}>
+            <div className={styles.portfolioCard}>
+              <div className={styles.cardImage}>
+                <a
+                  href="https://github.com/Cwong23/KaraokeExpert"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="/assets/karaokeExpert.png"
+                    alt="Karaoke Expert Image"
+                    className={styles.cardImageImg}
+                  />
+                </a>
+              </div>
+              <div className={styles.cardContent}>
+                <h2 className={styles.projectTitle}>
+                  <a
+                    href="https://github.com/Cwong23/KaraokeExpert"
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.titleLink}
+                  >
+                    Karaoke Expert
+                  </a>
+                </h2>
+                <div className={`${styles.entrySub} ${styles.entrySubProject}`}>
+                  <p className={styles.entryOrg}>Full-Stack Website</p>
+                </div>
+                <div className={styles.techBadgeRow}>
+                  {["React", "Vite", "MongoDB", "Flask", "Docker"].map((t) => (
+                    <span key={t} className={styles.techBadge}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <ul className={styles.entryBullets}>
+                  <li>
+                    - Implemented a karaoke web application that separates
+                    vocals and synchronizes lyrics for user-uploaded songs.
+                  </li>
+                  <li>
+                    - Integrated Flask APIs to support authentication, song
+                    uploads and separation, and synchronized lyric playback.
+                  </li>
+                  <li>
+                    - Containerized the application with Docker for consistent
+                    development and deployment.
+                  </li>
+                </ul>
+                <a
+                  href="https://github.com/Cwong23/KaraokeExpert"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.projLink}
+                >
+                  View on GitHub →
+                </a>
+              </div>
+            </div>
+
             <div className={styles.portfolioCard}>
               <div className={styles.cardImage}>
                 <a
@@ -233,9 +295,7 @@ export default function Resume() {
                   </a>
                 </h2>
                 <div className={`${styles.entrySub} ${styles.entrySubProject}`}>
-                  <p className={styles.entryOrg}>
-                    iOS Mobile Application | React Native
-                  </p>
+                  <p className={styles.entryOrg}>iOS Mobile Application</p>
                 </div>
                 <div className={styles.techBadgeRow}>
                   {["React Native", "Supabase"].map((t) => (
@@ -246,23 +306,22 @@ export default function Resume() {
                 </div>
                 <ul className={styles.entryBullets}>
                   <li>
-                    - Designed and developed a mobile application using React
-                    Native to help new cat adopters through personalized content
-                    delivery
+                    - Implemented a React Native mobile application to help new
+                    cat adopters through personalized content delivery.
                   </li>
                   <li>
                     - Engineered a clean UI design with custom spring and timing
                     animations, gesture-based swipe navigation, animated
                     progress indicators, and reusable card components across 20+
-                    screens
+                    screens.
                   </li>
                   <li>
-                    - Built Supabase-backed APIs to enable users to create, store,
-                    and share adoption experiences
+                    - Built Supabase-backed APIs to enable users to create,
+                    store, and share adoption experiences.
                   </li>
                   <li>
-                    - Built a location-based shelter finder that displays nearby
-                    cat shelters using the user's real-time location
+                    - Integrated a location-based shelter finder that uses
+                    real-time location data to display nearby cat shelters.
                   </li>
                 </ul>
                 <a
@@ -293,9 +352,7 @@ export default function Resume() {
                   </Link>
                 </h2>
                 <div className={`${styles.entrySub} ${styles.entrySubProject}`}>
-                  <p className={styles.entryOrg}>
-                    Full-Stack Website | React and MongoDB
-                  </p>
+                  <p className={styles.entryOrg}>Full-Stack Website</p>
                 </div>
                 <div className={styles.techBadgeRow}>
                   {["React", "Next.js", "MongoDB"].map((t) => (
@@ -306,18 +363,16 @@ export default function Resume() {
                 </div>
                 <ul className={styles.entryBullets}>
                   <li>
-                    - Designed and developed a full-stack personal portfolio
-                    website with an interactive map game that rendered 20+
-                    animated entities
+                    - Implemented a full-stack personal website with an
+                    interactive map game that rendered 20+ animated entities.
                   </li>
                   <li>
-                    - Implemented a physics-based pathing system, enabling
-                    entities to autonomously navigate obstacles in real time
+                    - Developed a physics-based pathing system, enabling
+                    entities to autonomously navigate obstacles in real time.
                   </li>
                   <li>
-                    - Developed RESTful APIs using Next.js API routes and MongoDB
-                    to dynamically deliver blog posts, projects, and comments,
-                    enabling real-time comment submissions.
+                    - Built RESTful APIs using Next.js and MongoDB to serve blog
+                    posts, projects, and real-time comments.
                   </li>
                 </ul>
                 <Link href="/?go=game" className={styles.projLink}>
