@@ -15,4 +15,5 @@ I designed and developed a full-stack personal portfolio website. Features inclu
 - TypeScript
 - Node.js
 - Next.js
+- HTML Canvas
 - MongoDB
